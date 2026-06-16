@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://suchandra369.lovable.app/sitemap.xml
+Sitemap: https://suchandra.vercel.app/sitemap.xml
