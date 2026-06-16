@@ -1,0 +1,285 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /*
+   * Dark-mode-only editorial design tokens.
+   * Inspired by Linear / Vercel / jestsee — restrained, layered, type-led.
+   */
+  :root,
+  .dark {
+    --background: 240 8% 4%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 7% 7%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 7% 6%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 180 55% 46%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 6% 10%;
+    --secondary-foreground: 0 0% 96%;
+
+    --muted: 240 5% 14%;
+    --muted-foreground: 240 5% 64%;
+
+    --accent: 258 55% 64%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 42%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5% 13%;
+    --input: 240 5% 13%;
+    --ring: 180 55% 46%;
+
+    --radius: 0.75rem;
+
+    --glass-bg: 255 255 255 / 0.04;
+    --glass-border: 255 255 255 / 0.08;
+
+    /* Unified editorial surface */
+    --surface-1: 240 7% 7%;
+    --hairline: 255 255 255 / 0.07;
+  }
+}
+
+@layer base {
+  :root {
+    /* Tightened editorial scale */
+    --text-h1: clamp(2.5rem, 4.5vw + 1rem, 4.75rem);
+    --text-h2: clamp(1.625rem, 2vw + 0.75rem, 2.5rem);
+    --text-h3: clamp(1.125rem, 0.8vw + 0.75rem, 1.5rem);
+    --text-body: clamp(0.95rem, 0.2vw + 0.9rem, 1.0625rem);
+    --text-lead: clamp(1rem, 0.4vw + 0.95rem, 1.2rem);
+    --section-y: clamp(5rem, 9vw, 10rem);
+  }
+
+  * {
+    @apply border-border selection:bg-accent/20 selection:text-foreground;
+  }
+
+  html {
+    @apply scroll-smooth;
+    scroll-behavior: smooth;
+    scroll-padding-top: clamp(72px, 8vw, 120px);
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased overflow-x-hidden;
+    font-family: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv11";
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  :where(a, button, input, textarea, select, [tabindex]):focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: var(--radius);
+  }
+}
+
+@layer utilities {
+  .fluid-h1 { font-size: var(--text-h1); line-height: 1.04; letter-spacing: -0.025em; font-weight: 600; }
+  .fluid-h2 { font-size: var(--text-h2); line-height: 1.12; letter-spacing: -0.02em; font-weight: 600; }
+  .fluid-h3 { font-size: var(--text-h3); line-height: 1.25; letter-spacing: -0.012em; font-weight: 600; }
+  .fluid-lead { font-size: var(--text-lead); line-height: 1.55; }
+  .fluid-body { font-size: var(--text-body); line-height: 1.7; }
+  .section-y { padding-block: var(--section-y); }
+  .touch-target { min-height: 2.75rem; min-width: 2.75rem; }
+  .lazy-section { content-visibility: auto; contain-intrinsic-size: 1px 800px; }
+
+  /* Editorial reading width */
+  .prose-measure { max-width: 68ch; }
+  .prose-measure-tight { max-width: 56ch; }
+
+  /* Mono eyebrow label */
+  .eyebrow {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+  }
+  .eyebrow-accent { color: hsl(var(--primary)); }
+
+  .font-mono { font-family: 'Geist Mono', ui-monospace, monospace; }
+
+  /* Section divider — quiet hairline with a subtle primary shimmer on first view */
+  .section-divider {
+    border-top: 1px solid hsl(var(--hairline));
+    position: relative;
+  }
+  .section-divider::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    height: 1px;
+    width: 0;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.35), transparent);
+    animation: divider-draw 1.4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .section-divider::before { animation: none; width: 0; }
+  }
+}
+
+@layer utilities {
+  .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+  /*
+   * Unified surface system — one card, one border, one hover.
+   */
+  .surface {
+    @apply bg-card border border-white/[0.06] rounded-2xl;
+  }
+  .surface-hover {
+    @apply transition-colors duration-300 hover:border-white/[0.12] hover:bg-card/90;
+  }
+
+  /* Legacy glass aliases (kept for back-compat, but quieter) */
+  .glass-effect {
+    @apply bg-card/70 border border-white/[0.06] shadow-lg shadow-black/20;
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+  .glass-card {
+    @apply bg-card/70 border border-white/[0.06] shadow-lg shadow-black/20 transition-colors duration-300 hover:border-white/[0.12];
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+  .glass-nav {
+    @apply bg-background/85 border-b border-white/[0.06];
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+  }
+  .glass-button {
+    @apply bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] transition-colors duration-200;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent;
+  }
+
+  .card-hover {
+    @apply transition-colors duration-300 hover:border-white/[0.12];
+  }
+
+  .link-underline {
+    @apply relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-primary/70 after:transition-all after:duration-300 hover:after:w-full;
+  }
+
+  .apple-card {
+    @apply rounded-2xl overflow-hidden bg-card border border-white/[0.06] transition-colors duration-300 hover:border-white/[0.12];
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 ease-out hover:-translate-y-0.5;
+  }
+
+  .gradient-bg {
+    background:
+      radial-gradient(60% 50% at 20% 0%, hsl(var(--primary) / 0.05), transparent 70%),
+      radial-gradient(50% 40% at 80% 100%, hsl(var(--accent) / 0.04), transparent 70%),
+      hsl(var(--background));
+  }
+
+  .responsive-text-sm  { @apply text-sm md:text-base leading-relaxed; }
+  .responsive-text-base { @apply text-base md:text-lg leading-relaxed; }
+  .responsive-text-lg  { @apply text-lg md:text-xl leading-relaxed; }
+  .responsive-text-xl  { @apply text-xl md:text-2xl leading-tight; }
+  .responsive-text-2xl { @apply text-2xl md:text-3xl leading-tight; }
+  .responsive-text-3xl { @apply text-3xl md:text-4xl leading-tight; }
+
+  .gradient-border {
+    @apply relative before:absolute before:inset-0 before:p-px before:rounded-xl
+           before:bg-gradient-to-br before:from-white/10 before:to-white/[0.02] before:-z-10;
+  }
+
+  .frosted-glass {
+    @apply bg-card/70 border border-white/[0.08];
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+  }
+
+  .apple-button {
+    @apply px-6 py-3 rounded-full bg-white/[0.05] hover:bg-white/[0.09]
+           border border-white/[0.1] transition-colors duration-200
+           font-medium text-foreground;
+  }
+
+  .subtle-animate { @apply transition-transform duration-300 hover:scale-[1.01]; }
+  .animate-float { animation: float 8s ease-in-out infinite; }
+  .animate-glow { animation: glow 6s ease-in-out infinite alternate; }
+}
+
+/* Page transitions */
+.page-enter { opacity: 0; transform: translateY(12px); }
+.page-enter-active {
+  opacity: 1; transform: translateY(0);
+  transition: opacity 500ms cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 500ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.page-exit { opacity: 1; transform: translateY(0); }
+.page-exit-active {
+  opacity: 0; transform: translateY(-12px);
+  transition: opacity 400ms cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 400ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+#root { max-width: 100%; margin: 0 auto; padding: 0; text-align: left; }
+
+@media (max-width: 640px) {
+  .container { padding-left: 1rem; padding-right: 1rem; }
+  .glass-effect, .glass-card { backdrop-filter: blur(12px); }
+  @media (hover: none) { .hover-lift:hover { transform: none; } }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes glow {
+  from { filter: drop-shadow(0 0 6px hsl(var(--primary) / 0.15)); }
+  to   { filter: drop-shadow(0 0 12px hsl(var(--primary) / 0.25)); }
+}
+@keyframes divider-draw {
+  0%   { width: 0; opacity: 0; }
+  60%  { opacity: 1; }
+  100% { width: 100%; opacity: 0; }
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+::selection {
+  background-color: hsl(var(--primary) / 0.22);
+  color: hsl(var(--foreground));
+}
+
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px;
+}
+
+@keyframes waveform-bar {
+  0%, 100% { height: 4px; opacity: 0.6; }
+  50% { height: 16px; opacity: 1; }
+}
+.animate-waveform { animation: waveform-bar 0.9s ease-in-out infinite; height: 16px; }

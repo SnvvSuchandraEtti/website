@@ -1,0 +1,20 @@
+# Suchandra Etti — Full-Stack & Mobile Developer Portfolio
+
+> Portfolio of ETTI S N V V SUCHANDRA, a full-stack and Flutter developer
+> building scalable EdTech, mobile, and AI products used by 10,000+ people.
+
+## Pages
+
+- [Home](/): Overview, featured projects, and intro.
+- [About](/about): Background, education, and personal story.
+- [Projects](/projects): Shipped apps across EdTech, marketplaces, AI, and mobile.
+- [Skills](/skills): Tech stack — Flutter, React, Node.js, Python, Firebase, AWS.
+- [Experience](/experience): Internships, leadership, and co-founder roles.
+- [Certificates](/certificates): Certifications and credentials.
+- [Contact](/contact): How to get in touch.
+
+## Optional
+
+- [HOOT 2.0 EdTech](/projects/hoot-edtech): Placement training app, 10K+ users.
+- [ACLUB](/projects/aclub-management): College club management platform.
+- [Leez](/projects/leez-marketplace): P2P rental marketplace startup.
