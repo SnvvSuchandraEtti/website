@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 
-const BASE_URL = "https://suchandra369.lovable.app";
+const BASE_URL = "https://suchandra.vercel.app";
 
 interface SEOProps {
   title: string;
@@ -20,7 +20,7 @@ interface SEOProps {
 export const SEO = ({ title, description, path, ogType = "website", jsonLd, noindex }: SEOProps) => {
   const fullTitle = title.includes("Suchandra") ? title : `${title} — Suchandra Etti`;
   const url = `${BASE_URL}${path}`;
-  const image = `${BASE_URL}/og-image.png`;
+  const image = `${BASE_URL}/assets/images/og/og-image.webp`;
   const ldArray = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
   return (
     <Helmet>
