@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import SectionHeading from '@/components/ui/SectionHeading';
 import ProjectCard from '@/components/ui/ProjectCard';
 import { projects } from '@/data/projects';
 
+/* ─── Section ─────────────────────────────────────────────────────── */
+
 const ProjectsSection: React.FC = () => {
-  const featuredProjects = projects.filter((p) => p.featured);
+  const featuredProjects = useMemo(
+    () => projects.filter((p) => p.featured),
+    []
+  );
 
   return (
-    <section id="projects" className="section-y relative">
+    <section id="projects" className="section-y relative" aria-label="Selected projects">
       <div className="container mx-auto px-4 max-w-[1200px]">
+        {/* Header row with inline "All projects" link */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
           <SectionHeading
             eyebrow="Selected work"
@@ -22,12 +29,20 @@ const ProjectsSection: React.FC = () => {
           />
           <Link
             to="/projects"
-            className="self-start md:self-end inline-flex items-center gap-2 text-sm text-foreground border-b border-white/[0.15] pb-1 hover:border-foreground transition-colors whitespace-nowrap"
+            className={cn(
+              'self-start md:self-end inline-flex items-center gap-2',
+              'text-sm text-foreground whitespace-nowrap',
+              'border-b border-white/[0.15] pb-1',
+              'transition-colors duration-200 hover:border-foreground',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded'
+            )}
           >
-            All projects <ArrowRight className="h-4 w-4" />
+            All projects
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
 
+        {/* Project grid */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

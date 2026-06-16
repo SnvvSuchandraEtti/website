@@ -1,27 +1,26 @@
 import React, { useEffect, useMemo } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
-import { experiences } from '@/data/experience';
-import Navbar from '@/components/layout/Navbar';
-import SectionHeading from '@/components/ui/SectionHeading';
-import SmoothTransition from '@/components/ui/SmoothTransition';
 import { ExternalLink } from 'lucide-react';
+import { experiences } from '@/data/experience';
+import { cn } from '@/lib/utils';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import SectionHeading from '@/components/ui/SectionHeading';
+import PageTransition from '@/components/ui/PageTransition';
 import SEO from '@/components/seo/SEO';
 
 const Experience: React.FC = () => {
   const location = useLocation();
   const reduceMotion = useReducedMotion();
 
-  // Sort once per data change, not on every render.
+  // Sort chronologically
   const sorted = useMemo(
-    () =>
-      [...experiences].sort(
-        (a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
-      ),
+    () => [...experiences].sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime()),
     []
   );
 
-  // Hash anchors → smooth (respecting motion preference); otherwise reset.
+  // Hash anchor scrolling
   useEffect(() => {
     if (typeof window === 'undefined') return;
     if (location.hash) {
@@ -36,7 +35,7 @@ const Experience: React.FC = () => {
   }, [location, reduceMotion]);
 
   return (
-    <SmoothTransition>
+    <PageTransition>
       <div className="min-h-dvh flex flex-col">
         <SEO
           title="Experience"
@@ -45,7 +44,7 @@ const Experience: React.FC = () => {
         />
         <Navbar />
 
-        <main className="flex-grow pt-28 pb-20">
+        <main className="flex-grow pt-28 pb-24">
           <div className="container mx-auto px-4 max-w-[1000px]">
             <SectionHeading
               as="h1"
@@ -55,39 +54,44 @@ const Experience: React.FC = () => {
               alignment="left"
             />
 
-            <ol className="relative" aria-label="Work history">
-              <div
-                className="absolute left-0 top-2 bottom-2 w-px bg-white/[0.08]"
+            <ol className="relative space-y-20 mt-16" aria-label="Work history">
+              {/* Timeline Rule */}
+              <span
+                className="absolute left-[5px] sm:left-[11px] top-3 bottom-12 w-[1px] bg-white/[0.08]"
                 aria-hidden="true"
               />
-              <div className="space-y-16">
-                {sorted.map((exp, index) => (
-                  <motion.li
-                    id={exp.id}
-                    key={exp.id}
-                    initial={{ opacity: 0, y: 14 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.25) }}
-                    className="relative pl-8 md:pl-12 scroll-mt-28 list-none"
-                  >
-                    <span
-                      className="absolute left-0 top-2 -translate-x-[3px] w-[7px] h-[7px] rounded-full bg-primary"
-                      aria-hidden="true"
-                    />
 
-                    <p className="eyebrow mb-2">
-                      <time>{exp.startDate}</time>
-                      {' — '}
-                      <time>{exp.endDate || 'Present'}</time>
-                      {' · '}
-                      {exp.location}
+              {sorted.map((exp, index) => (
+                <motion.li
+                  id={exp.id}
+                  key={exp.id}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.2) }}
+                  className="relative pl-10 sm:pl-16 scroll-mt-32 list-none group"
+                >
+                  {/* Timeline Dot */}
+                  <span
+                    className="absolute left-0 sm:left-2 top-2.5 w-3 h-3 rounded-full border-[3px] border-background bg-primary shadow-[0_0_0_1px_rgba(255,255,255,0.08)] group-hover:bg-accent group-hover:shadow-[0_0_0_1px_rgba(255,255,255,0.2)] transition-all duration-300 z-10"
+                    aria-hidden="true"
+                  />
+
+                  {/* Header */}
+                  <header className="mb-4">
+                    <p className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground/80 mb-2">
+                      <time dateTime={new Date(exp.startDate).toISOString()}>{exp.startDate}</time>
+                      <span className="mx-2 text-white/[0.2]">/</span>
+                      <time dateTime={exp.endDate ? new Date(exp.endDate).toISOString() : undefined}>{exp.endDate || 'Present'}</time>
+                      <span className="mx-2 text-white/[0.2]">/</span>
+                      <span className="text-foreground/60">{exp.location}</span>
                     </p>
 
-                    <h2 className="fluid-h3 text-foreground mb-1">
+                    <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground mb-1">
                       {exp.role || exp.title}
                     </h2>
-                    <p className="text-sm text-muted-foreground mb-5 inline-flex items-center gap-2">
+                    
+                    <p className="flex items-center gap-2 text-[15px] font-medium text-muted-foreground">
                       <span>{exp.company}</span>
                       {exp.website && (
                         <a
@@ -95,54 +99,58 @@ const Experience: React.FC = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`${exp.company} website (opens in new tab)`}
-                          className="text-primary hover:text-primary/80 transition-colors inline-flex items-center gap-1 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded"
+                          className="inline-flex items-center justify-center h-6 w-6 rounded-md hover:bg-white/[0.08] text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                         >
-                          <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                          <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
                         </a>
                       )}
                     </p>
+                  </header>
 
-                    <p className="fluid-body text-muted-foreground leading-[1.75] prose-measure mb-6">
-                      {exp.description}
-                    </p>
+                  {/* Body */}
+                  <div className="prose-measure text-[15px] leading-relaxed text-muted-foreground/90 space-y-6">
+                    <p>{exp.description}</p>
 
                     {exp.achievements && exp.achievements.length > 0 && (
-                      <ul className="space-y-2 prose-measure mb-6">
+                      <ul className="space-y-3">
                         {exp.achievements.map((a, i) => (
-                          <li key={i} className="text-sm text-foreground/85 flex gap-3">
-                            <span
-                              className="text-primary mt-2 h-1 w-1 rounded-full bg-primary shrink-0"
-                              aria-hidden="true"
+                          <li key={i} className="relative pl-6">
+                            <span 
+                              className="absolute left-0 top-[0.55rem] h-[5px] w-[5px] rounded-full bg-primary/60 ring-2 ring-primary/10" 
+                              aria-hidden="true" 
                             />
-                            <span>{a}</span>
+                            {a}
                           </li>
                         ))}
                       </ul>
                     )}
+                  </div>
 
-                    {exp.technologies && exp.technologies.length > 0 && (
-                      <ul
-                        className="flex flex-wrap gap-1.5"
-                        aria-label={`${exp.role || exp.title} stack`}
-                      >
-                        {exp.technologies.map((t) => (
-                          <li
-                            key={t}
-                            className="px-2.5 py-1 text-[11px] font-mono text-muted-foreground border border-white/[0.06] bg-white/[0.02] rounded-md"
-                          >
-                            {t}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </motion.li>
-                ))}
-              </div>
+                  {/* Footer Stack */}
+                  {exp.technologies && exp.technologies.length > 0 && (
+                    <ul
+                      className="flex flex-wrap gap-2 mt-8"
+                      aria-label={`${exp.role || exp.title} stack`}
+                    >
+                      {exp.technologies.map((t) => (
+                        <li
+                          key={t}
+                          className="px-2.5 py-1 text-[11px] font-mono text-muted-foreground border border-white/[0.06] bg-white/[0.02] rounded-md transition-colors hover:border-white/[0.15] hover:text-foreground"
+                        >
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </motion.li>
+              ))}
             </ol>
           </div>
         </main>
+
+        <Footer />
       </div>
-    </SmoothTransition>
+    </PageTransition>
   );
 };
 

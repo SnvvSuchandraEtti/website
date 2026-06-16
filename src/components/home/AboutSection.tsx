@@ -1,19 +1,40 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import SectionHeading from '@/components/ui/SectionHeading';
 import aboutPortrait from '@/assets/profile/suchandra-about-portrait.jpg.asset.json';
+
+/* ─── Data ────────────────────────────────────────────────────────── */
 
 const stats = [
   { value: '7+', label: 'Major projects' },
   { value: '28K+', label: 'Users reached' },
   { value: '500+', label: 'Problems solved' },
   { value: 'Top 5%', label: 'Global ranking' },
-];
+] as const;
+
+/* ─── Sub-components ──────────────────────────────────────────────── */
+
+/** Quiet inline stat — recruiter-scannable at a glance. */
+const Stat: React.FC<{ value: string; label: string }> = ({ value, label }) => (
+  <div>
+    <dt className="eyebrow mb-1.5">{label}</dt>
+    <dd className="fluid-h3 text-foreground font-semibold tabular-nums">{value}</dd>
+  </div>
+);
+
+/** Inline text emphasis — upgrades a word or phrase to foreground color. */
+const Em: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <span className="text-foreground">{children}</span>
+);
+
+/* ─── Section ─────────────────────────────────────────────────────── */
 
 const AboutSection: React.FC = () => {
   return (
-    <section id="about" className="section-y relative">
+    <section id="about" className="section-y relative" aria-label="About">
       <div className="container mx-auto px-4 max-w-[1200px]">
         <SectionHeading
           eyebrow="About"
@@ -38,9 +59,12 @@ const AboutSection: React.FC = () => {
               decoding="async"
               className="w-full h-full object-cover object-center"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+            <div
+              className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent"
+              aria-hidden="true"
+            />
             <div className="absolute bottom-5 left-5 right-5">
-              <p className="eyebrow text-foreground/70 mb-1">Currently</p>
+              <p className="eyebrow text-foreground/60 mb-1">Currently</p>
               <p className="text-sm font-medium text-foreground">
                 Building Leez — a P2P rental marketplace.
               </p>
@@ -59,43 +83,45 @@ const AboutSection: React.FC = () => {
               <p>
                 I picked up programming because I wanted to build things people would
                 actually use. Six years later, that's still the only metric I care
-                about. Flutter and React are my daily drivers; Node, Python, and
-                Firebase round out the stack.
+                about. <Em>Flutter</Em> and <Em>React</Em> are my daily drivers;{' '}
+                <Em>Node</Em>, <Em>Python</Em>, and <Em>Firebase</Em> round out the
+                stack.
               </p>
               <p>
-                Along the way I've shipped{' '}
-                <span className="text-foreground">HOOT 2.0</span> (10,000+ students)
-                and <span className="text-foreground">S-TRACK</span> (18,000+ users),
-                interned at Technical Hub, coordinated workshops for 2,500+ students
-                through LEO Club, and represented college at hackathons across KL,
-                GIET, JNTUK, and JNTUV.
+                Along the way I've shipped <Em>HOOT 2.0</Em> (10,000+ students) and{' '}
+                <Em>S-TRACK</Em> (18,000+ users), interned at Technical Hub, coordinated
+                workshops for 2,500+ students through LEO Club, and represented college
+                at hackathons across KL, GIET, JNTUK, and JNTUV.
               </p>
               <p>
-                Right now I'm focused on{' '}
-                <span className="text-foreground">Leez</span>, a peer-to-peer rental
-                marketplace for local communities, and on sharpening the
-                product-engineering fundamentals that turn side projects into
-                companies.
+                Right now I'm focused on <Em>Leez</Em>, a peer-to-peer rental marketplace
+                for local communities, and on sharpening the product-engineering
+                fundamentals that turn side projects into companies.
               </p>
             </div>
 
-            {/* Stats — inline metadata, not card grid */}
-            <div className="mt-12 pt-8 border-t border-white/[0.08] grid grid-cols-2 sm:grid-cols-4 gap-6">
+            {/* Stats — proper dl semantics, inline metadata */}
+            <dl
+              className="mt-12 pt-8 border-t border-white/[0.08] grid grid-cols-2 sm:grid-cols-4 gap-6"
+              aria-label="Key stats"
+            >
               {stats.map((s) => (
-                <div key={s.label}>
-                  <div className="fluid-h3 text-foreground font-semibold">{s.value}</div>
-                  <div className="eyebrow mt-1.5">{s.label}</div>
-                </div>
+                <Stat key={s.label} value={s.value} label={s.label} />
               ))}
-            </div>
+            </dl>
 
-            <a
-              href="/contact"
-              className="mt-10 inline-flex items-center gap-2 text-sm text-foreground border-b border-white/[0.15] pb-1 hover:border-foreground transition-colors"
+            <Link
+              to="/contact"
+              className={cn(
+                'mt-10 inline-flex items-center gap-2 text-sm text-foreground',
+                'border-b border-white/[0.15] pb-1',
+                'transition-colors duration-200 hover:border-foreground',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded'
+              )}
             >
               Reach out for collaborations
-              <ArrowUpRight className="h-4 w-4" />
-            </a>
+              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
           </motion.div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -10,14 +10,20 @@ import {
   Maximize2,
   ShieldCheck,
   Tag,
+  Hash,
+  AlertCircle,
 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { certificates, Certificate } from '@/data/certificates';
 import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import PageTransition from '@/components/ui/PageTransition';
 import AdaptivePdfViewer from '@/components/certificates/AdaptivePdfViewer';
 import { CertificateViewer } from '@/components/certificates/CertificateFullViewer';
-import { Button } from '@/components/ui/button';
 import SEO from '@/components/seo/SEO';
 import { getIssuerStyle } from '@/utils/issuerStyle';
+
+/* ─── Helpers ─────────────────────────────────────────────────────── */
 
 const formatDate = (s: string) => {
   if (!s) return '';
@@ -32,30 +38,118 @@ const toIsoDate = (s: string) => {
   return isNaN(d.getTime()) ? undefined : d.toISOString().slice(0, 10);
 };
 
+/* ─── Sub-components ──────────────────────────────────────────────── */
+
+/** Data row for certificate metadata (date, ID, category) */
+const MetaRow: React.FC<{
+  icon: React.ReactNode;
+  label: string;
+  children: React.ReactNode;
+}> = ({ icon, label, children }) => (
+  <div className="flex items-start gap-3 py-2">
+    <span className="text-muted-foreground/60 mt-0.5">{icon}</span>
+    <div className="min-w-0">
+      <dt className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground/70 mb-0.5">
+        {label}
+      </dt>
+      <dd className="text-[13px] text-foreground font-medium">{children}</dd>
+    </div>
+  </div>
+);
+
+/** Action button specialized for certificate actions */
+const ActionButton: React.FC<{
+  onClick?: () => void;
+  href?: string;
+  download?: string;
+  disabled?: boolean;
+  variant?: 'primary' | 'secondary';
+  icon: React.ReactNode;
+  children: React.ReactNode;
+  fullWidth?: boolean;
+}> = ({ onClick, href, download, disabled, variant = 'secondary', icon, children, fullWidth }) => {
+  const baseClasses = cn(
+    'inline-flex items-center justify-center gap-2 h-10 px-4 rounded-lg text-sm font-medium transition-all duration-200',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+    fullWidth && 'w-full',
+    disabled && 'opacity-50 cursor-not-allowed',
+    variant === 'primary'
+      ? 'bg-foreground text-background hover:bg-foreground/90 shadow-[0_1px_2px_rgba(255,255,255,0.1)]'
+      : 'bg-white/[0.04] border border-white/[0.08] text-foreground hover:bg-white/[0.08] hover:border-white/[0.12]'
+  );
+
+  const content = (
+    <>
+      <span className={cn(variant === 'secondary' ? 'text-muted-foreground' : '')}>{icon}</span>
+      {children}
+    </>
+  );
+
+  if (href) {
+    if (disabled) {
+      return <span className={baseClasses}>{content}</span>;
+    }
+    return (
+      <a
+        href={href}
+        download={download}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={baseClasses}
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <button type="button" onClick={onClick} disabled={disabled} className={baseClasses}>
+      {content}
+    </button>
+  );
+};
+
+/** Skill chip */
+const SkillChip: React.FC<{ skill: string }> = ({ skill }) => (
+  <li
+    className={cn(
+      'px-2.5 py-1 text-[11px] font-mono text-muted-foreground/90',
+      'border border-white/[0.08] bg-white/[0.02] rounded-md',
+      'transition-colors hover:border-white/[0.15] hover:text-foreground'
+    )}
+  >
+    {skill}
+  </li>
+);
+
+/* ─── Page ────────────────────────────────────────────────────────── */
+
 const CertificateDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [fullScreen, setFullScreen] = useState(false);
 
+  // Memoize active certificate
   const certificate = useMemo<Certificate | null>(
     () => (id ? certificates.find((c) => c.id === id) ?? null : null),
     [id]
   );
 
+  // Find up to 3 related certificates
   const related = useMemo<Certificate[]>(() => {
     if (!certificate) return [];
     return certificates
       .filter((c) => c.category === certificate.category && c.id !== certificate.id)
-      .slice(0, 5);
+      .slice(0, 3);
   }, [certificate]);
 
-  // Reset scroll on navigation without smooth jank.
+  // Handle scroll restoration smoothly
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const raf = requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0 }));
     return () => cancelAnimationFrame(raf);
   }, [id]);
 
-  // Body-scroll lock while viewer is open.
+  // Body-scroll lock for fullscreen viewer
   useEffect(() => {
     if (!fullScreen) return;
     const prev = document.body.style.overflow;
@@ -65,31 +159,38 @@ const CertificateDetail: React.FC = () => {
     };
   }, [fullScreen]);
 
+  // 404 Fallback
   if (!certificate) {
     return (
-      <>
+      <PageTransition>
         <SEO
           title="Certificate not found"
-          description="The certificate you're looking for doesn't exist or has been removed."
+          description="The credential you're looking for doesn't exist."
           path="/certificates"
           noindex
         />
         <Navbar />
-        <main className="min-h-dvh pt-32 pb-20">
-          <div className="container mx-auto px-4 text-center">
-            <h1 className="fluid-h3 text-foreground mb-4">Certificate not found</h1>
-            <p className="text-muted-foreground mb-8">
-              This credential doesn't exist or has been removed.
+        <main className="min-h-dvh flex flex-col items-center justify-center pt-24 pb-20">
+          <div className="container mx-auto px-4 text-center max-w-md">
+            <AlertCircle className="w-12 h-12 text-muted-foreground/50 mx-auto mb-6" />
+            <h1 className="fluid-h3 text-foreground mb-3">Credential missing</h1>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-8">
+              This certificate either doesn't exist, has been removed, or the URL is incorrect.
             </p>
             <Link
               to="/certificates"
-              className="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+              className={cn(
+                'inline-flex items-center gap-2 h-10 px-6 rounded-full text-sm font-medium',
+                'bg-foreground text-background hover:bg-foreground/90 transition-colors',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50'
+              )}
             >
-              <ArrowLeft className="h-4 w-4" aria-hidden="true" /> All certificates
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Browse all certificates
             </Link>
           </div>
         </main>
-      </>
+        <Footer />
+      </PageTransition>
     );
   }
 
@@ -99,7 +200,7 @@ const CertificateDetail: React.FC = () => {
   const hasPdf = !!certificate.pdfUrl;
 
   return (
-    <>
+    <PageTransition>
       <SEO
         title={certificate.title}
         description={`${certificate.title} — issued by ${certificate.issuer} (${certificate.date}). ${certificate.description}`}
@@ -111,178 +212,189 @@ const CertificateDetail: React.FC = () => {
           name: certificate.title,
           credentialCategory: certificate.category,
           recognizedBy: { '@type': 'Organization', name: certificate.issuer },
-          dateCreated: certificate.date,
+          dateCreated: isoDate || certificate.date,
           description: certificate.description,
         }}
       />
       <Navbar />
-      <main className="min-h-dvh pt-24 pb-20">
+
+      <main className="min-h-dvh pt-28 pb-24">
         <div className="container mx-auto px-4 max-w-[1200px]">
-          {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="mb-8">
+          {/* Breadcrumb Navigation */}
+          <nav aria-label="Breadcrumb" className="mb-10">
             <Link
               to="/certificates"
-              className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded"
+              className={cn(
+                'inline-flex items-center gap-2 text-[13px] font-medium text-muted-foreground',
+                'hover:text-foreground transition-colors duration-200',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded-sm'
+              )}
             >
-              <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" /> All certificates
+              <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+              All certificates
             </Link>
           </nav>
 
-          {/* Two-column layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] gap-10">
-            {/* Metadata column */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-12 lg:gap-20">
+            {/* ── Metadata Column ─────────────────────────────────── */}
             <motion.aside
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="lg:sticky lg:top-24 lg:self-start"
+              className="lg:sticky lg:top-32 lg:self-start flex flex-col gap-8"
+              aria-label="Certificate details"
             >
-              <p className="eyebrow mb-3" style={{ color: issuerStyle.hex }}>
-                {certificate.issuer}
-              </p>
-              <h1 className="fluid-h2 text-foreground font-semibold leading-tight mb-5">
-                {certificate.title}
-              </h1>
+              {/* Header block */}
+              <div>
+                <p className="eyebrow mb-3" style={{ color: issuerStyle.hex }}>
+                  {certificate.issuer}
+                </p>
+                <h1 className="fluid-h2 text-foreground font-semibold leading-[1.1] tracking-tight mb-4">
+                  {certificate.title}
+                </h1>
+                {verified && (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-mono text-emerald-400">
+                    <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
+                    Verified credential
+                  </span>
+                )}
+              </div>
 
-              {verified && (
-                <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-emerald-400 mb-5">
-                  <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" /> Verified credential
-                </span>
-              )}
-
-              <dl className="space-y-4 pb-6 mb-6 border-b border-white/[0.08]">
-                <Row icon={<Calendar className="h-3.5 w-3.5" aria-hidden="true" />} label="Issued">
+              {/* Data list */}
+              <dl
+                className="grid grid-cols-2 lg:grid-cols-1 gap-x-6 gap-y-1 py-6 border-y border-white/[0.06]"
+                aria-label="Metadata"
+              >
+                <MetaRow icon={<Calendar className="h-3.5 w-3.5" />} label="Issued">
                   <time dateTime={isoDate}>{formatDate(certificate.date)}</time>
-                </Row>
-                <Row icon={<Tag className="h-3.5 w-3.5" aria-hidden="true" />} label="Category">
+                </MetaRow>
+                <MetaRow icon={<Tag className="h-3.5 w-3.5" />} label="Category">
                   <span className="capitalize">{certificate.category}</span>
-                </Row>
+                </MetaRow>
                 {certificate.credentialId && (
-                  <Row
-                    icon={<span className="font-mono text-[10px]" aria-hidden="true">#</span>}
-                    label="Credential ID"
-                  >
-                    <span className="font-mono text-xs break-all">{certificate.credentialId}</span>
-                  </Row>
+                  <MetaRow icon={<Hash className="h-3 w-3" />} label="Credential ID">
+                    <span className="font-mono text-xs text-foreground/80 break-all select-all">
+                      {certificate.credentialId}
+                    </span>
+                  </MetaRow>
                 )}
               </dl>
 
-              <div className="mb-6">
-                <h2 className="eyebrow mb-2">About</h2>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+              {/* Description */}
+              <div className="prose-measure-tight">
+                <h2 className="eyebrow text-foreground/80 mb-3">About</h2>
+                <p className="text-sm text-muted-foreground leading-[1.6]">
                   {certificate.description}
                 </p>
               </div>
 
+              {/* Skills covered */}
               {certificate.skills && certificate.skills.length > 0 && (
-                <div className="mb-6">
-                  <h2 className="eyebrow mb-2">Skills</h2>
-                  <ul className="flex flex-wrap gap-1.5" aria-label="Skills covered">
+                <div>
+                  <h2 className="eyebrow text-foreground/80 mb-3">Skills</h2>
+                  <ul className="flex flex-wrap gap-2" aria-label="Skills covered">
                     {certificate.skills.map((s) => (
-                      <li
-                        key={s}
-                        className="px-2.5 py-1 text-[11px] font-mono text-muted-foreground border border-white/[0.08] rounded"
-                      >
-                        {s}
-                      </li>
+                      <SkillChip key={s} skill={s} />
                     ))}
                   </ul>
                 </div>
               )}
 
-              {/* Actions */}
-              <div className="flex flex-col gap-2">
-                <Button
+              {/* Action Buttons */}
+              <div className="flex flex-col gap-3 pt-2">
+                <ActionButton
                   onClick={() => setFullScreen(true)}
                   disabled={!hasPdf}
-                  aria-label="Open certificate in full screen"
-                  className="w-full"
+                  variant="primary"
+                  icon={<Maximize2 className="h-4 w-4" aria-hidden="true" />}
+                  fullWidth
                 >
-                  <Maximize2 className="w-4 h-4 mr-2" aria-hidden="true" />
                   View full certificate
-                </Button>
-                <div className="flex gap-2">
-                  {hasPdf ? (
-                    <Button variant="outline" asChild className="flex-1">
-                      <a
-                        href={certificate.pdfUrl}
-                        download={`${certificate.title}.pdf`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Download className="w-4 h-4 mr-2" aria-hidden="true" />
-                        Download
-                      </a>
-                    </Button>
-                  ) : (
-                    <Button variant="outline" disabled className="flex-1">
-                      <Download className="w-4 h-4 mr-2" aria-hidden="true" />
-                      Download
-                    </Button>
-                  )}
-                  {verified && (
-                    <Button variant="outline" asChild className="flex-1">
-                      <a
-                        href={certificate.credentialUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Verify credential on issuer site (opens in new tab)"
-                      >
-                        <ExternalLink className="w-4 h-4 mr-2" aria-hidden="true" />
-                        Verify
-                      </a>
-                    </Button>
-                  )}
+                </ActionButton>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <ActionButton
+                    href={hasPdf ? certificate.pdfUrl : undefined}
+                    download={hasPdf ? `${certificate.title}.pdf` : undefined}
+                    disabled={!hasPdf}
+                    icon={<Download className="h-4 w-4" aria-hidden="true" />}
+                    fullWidth
+                  >
+                    Download
+                  </ActionButton>
+
+                  <ActionButton
+                    href={verified ? certificate.credentialUrl : undefined}
+                    disabled={!verified}
+                    icon={<ExternalLink className="h-4 w-4" aria-hidden="true" />}
+                    fullWidth
+                  >
+                    Verify
+                  </ActionButton>
                 </div>
               </div>
             </motion.aside>
 
-            {/* PDF column */}
+            {/* ── Document Column ─────────────────────────────────── */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:pt-2" // Optical alignment with title
             >
-              <AdaptivePdfViewer
-                pdfUrl={certificate.pdfUrl}
-                title={certificate.title}
-                orientationHint={certificate.orientation}
-              />
+              <div className="rounded-xl overflow-hidden border border-white/[0.08] bg-card/50 ring-1 ring-white/[0.02] shadow-2xl">
+                <AdaptivePdfViewer
+                  pdfUrl={certificate.pdfUrl}
+                  title={certificate.title}
+                  orientationHint={certificate.orientation}
+                />
+              </div>
             </motion.div>
           </div>
 
-          {/* Related */}
+          {/* ── Related Certificates ──────────────────────────────── */}
           {related.length > 0 && (
             <motion.section
               aria-labelledby="related-heading"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.4 }}
-              className="mt-20 pt-10 border-t border-white/[0.08]"
+              transition={{ duration: 0.5 }}
+              className="mt-32 pt-16 border-t border-white/[0.06]"
             >
-              <h2 id="related-heading" className="eyebrow mb-5">
-                More {certificate.category} certificates
+              <h2 id="related-heading" className="eyebrow mb-6">
+                More in {certificate.category}
               </h2>
-              <ul className="divide-y divide-white/[0.06]">
+              <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {related.map((c) => (
                   <li key={c.id}>
                     <Link
                       to={`/certificates/${c.id}`}
-                      className="flex items-center justify-between gap-4 py-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded"
+                      className={cn(
+                        'group flex flex-col justify-between h-full p-5 rounded-xl',
+                        'bg-white/[0.02] border border-white/[0.04]',
+                        'transition-all duration-300',
+                        'hover:bg-white/[0.04] hover:border-white/[0.1] hover:shadow-lg',
+                        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50'
+                      )}
                     >
-                      <div className="min-w-0">
-                        <p className="text-sm text-foreground group-hover:text-primary transition-colors truncate">
+                      <div className="mb-4">
+                        <div className="flex items-start justify-between gap-4 mb-3">
+                          <p className="text-[11px] font-mono text-muted-foreground group-hover:text-foreground/80 transition-colors">
+                            {c.issuer}
+                          </p>
+                          <ArrowUpRight
+                            className="h-3.5 w-3.5 text-muted-foreground opacity-50 group-hover:opacity-100 group-hover:text-foreground group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all"
+                            aria-hidden="true"
+                          />
+                        </div>
+                        <h3 className="text-sm font-medium text-foreground/90 group-hover:text-foreground leading-tight">
                           {c.title}
-                        </p>
-                        <p className="text-[11px] font-mono text-muted-foreground mt-0.5">
-                          {c.issuer} · {formatDate(c.date)}
-                        </p>
+                        </h3>
                       </div>
-                      <ArrowUpRight
-                        className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors shrink-0"
-                        aria-hidden="true"
-                      />
+                      <time className="text-[11px] font-mono text-muted-foreground/60">
+                        {formatDate(c.date)}
+                      </time>
                     </Link>
                   </li>
                 ))}
@@ -292,31 +404,20 @@ const CertificateDetail: React.FC = () => {
         </div>
       </main>
 
-      {fullScreen && (
-        <CertificateViewer
-          pdfUrl={certificate.pdfUrl}
-          title={certificate.title}
-          onClose={() => setFullScreen(false)}
-        />
-      )}
-    </>
+      <Footer />
+
+      {/* Fullscreen Overlay */}
+      <AnimatePresence>
+        {fullScreen && (
+          <CertificateViewer
+            pdfUrl={certificate.pdfUrl}
+            title={certificate.title}
+            onClose={() => setFullScreen(false)}
+          />
+        )}
+      </AnimatePresence>
+    </PageTransition>
   );
 };
-
-const Row: React.FC<{ icon: React.ReactNode; label: string; children: React.ReactNode }> = ({
-  icon,
-  label,
-  children,
-}) => (
-  <div className="flex items-start gap-3">
-    <span className="text-muted-foreground mt-0.5">{icon}</span>
-    <div className="min-w-0">
-      <dt className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground/70">
-        {label}
-      </dt>
-      <dd className="text-sm text-foreground mt-0.5">{children}</dd>
-    </div>
-  </div>
-);
 
 export default CertificateDetail;

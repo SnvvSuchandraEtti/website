@@ -12,21 +12,27 @@ import SmoothTransition from '@/components/ui/SmoothTransition';
 import SEO from '@/components/seo/SEO';
 
 const Index: React.FC = () => {
+  // Ensure we start at the top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-
   return (
     <SmoothTransition>
-      <div className="relative min-h-dvh">
-        {/* Single quiet ambient wash — no animated orbs, no particles */}
-        <div className="fixed inset-0 -z-10 pointer-events-none">
+      <div className="relative min-h-dvh flex flex-col selection:bg-primary/30 selection:text-primary-foreground">
+        {/*
+          Quiet ambient wash.
+          Strictly minimal, no intense glows or animations.
+        */}
+        <div className="fixed inset-0 -z-10 pointer-events-none" aria-hidden="true">
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 opacity-[0.15]"
             style={{
-              background:
-                'radial-gradient(60% 45% at 80% 0%, hsl(var(--primary) / 0.05), transparent 70%), radial-gradient(50% 40% at 10% 100%, hsl(var(--accent) / 0.04), transparent 70%)',
+              background: `
+                radial-gradient(circle at 80% 0%, hsl(var(--primary)), transparent 40%),
+                radial-gradient(circle at 20% 100%, hsl(var(--accent)), transparent 40%)
+              `,
+              filter: 'blur(100px)',
             }}
           />
         </div>
@@ -37,19 +43,21 @@ const Index: React.FC = () => {
           path="/"
           ogType="profile"
         />
+
         <Navbar />
 
-        <main className="relative">
+        <main className="relative flex-grow">
           <HeroSection />
           <div className="section-divider"><AboutSection /></div>
           <div className="section-divider"><SkillsSection /></div>
           <div className="section-divider"><ProjectsSection /></div>
           <div className="section-divider"><ExperienceSection /></div>
           <div className="section-divider"><CertificatesSection /></div>
-          <ChatbotButton />
         </main>
 
         <Footer />
+
+        <ChatbotButton />
       </div>
     </SmoothTransition>
   );

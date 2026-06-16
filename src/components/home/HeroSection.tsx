@@ -1,15 +1,58 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Github, Linkedin, ArrowDown } from 'lucide-react';
 import ResumeButton from '../ui/ResumeButton';
 import { useMagnetic } from '@/hooks/useMagnetic';
+import { cn } from '@/lib/utils';
 import suchandraMainAsset from '@/assets/profile/suchandra-main.png.asset.json';
 const suchandraMain = suchandraMainAsset.url;
+
+/* ─── Typing animation config ─────────────────────────────────────── */
 
 const TYPE_MS = 60;
 const DELETE_MS = 35;
 const HOLD_MS = 2200;
 const PAUSE_MS = 600;
+
+/* ─── Sub-components ──────────────────────────────────────────────── */
+
+/** Quiet social link for the tertiary row. */
+const SocialLink: React.FC<{
+  href: string;
+  label: string;
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}> = ({ href, label, icon, children }) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={label}
+    className={cn(
+      'inline-flex items-center gap-1.5 text-sm text-muted-foreground',
+      'transition-colors duration-200 hover:text-foreground',
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded'
+    )}
+  >
+    {icon}
+    {children}
+  </a>
+);
+
+/** Badge overlay on the portrait. */
+const PortraitBadge: React.FC<{
+  label: string;
+  value: string;
+  position?: 'left' | 'right';
+}> = ({ label, value, position = 'left' }) => (
+  <div className={position === 'right' ? 'text-right' : ''}>
+    <p className="eyebrow text-foreground/60">{label}</p>
+    <p className="text-sm font-medium text-foreground mt-0.5">{value}</p>
+  </div>
+);
+
+/* ─── Hero ────────────────────────────────────────────────────────── */
 
 const HeroSection: React.FC = () => {
   const titles = useMemo(
@@ -22,7 +65,7 @@ const HeroSection: React.FC = () => {
 
   // Single self-rescheduling timer; no setInterval reassignment race.
   useEffect(() => {
-    if (reduceMotion) return; // honor user preference: skip typing animation
+    if (reduceMotion) return;
     let cancelled = false;
     let timer: ReturnType<typeof setTimeout>;
     let titleIdx = 0;
@@ -62,9 +105,12 @@ const HeroSection: React.FC = () => {
   }, [titles, reduceMotion]);
 
   return (
-    <section className="relative min-h-dvh flex items-center overflow-hidden">
+    <section
+      className="relative min-h-dvh flex items-center overflow-hidden"
+      aria-label="Introduction"
+    >
       {/* Calm static gradient wash — no particles, no pulsing blobs */}
-      <div className="absolute inset-0 -z-10 pointer-events-none">
+      <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
         <div
           className="absolute inset-0"
           style={{
@@ -107,11 +153,17 @@ const HeroSection: React.FC = () => {
               that ship to <span className="text-primary">real users.</span>
             </motion.h1>
 
+            {/* Accessible role text for screen readers */}
+            <span className="sr-only">
+              Flutter Developer, Full-Stack Engineer, AI Builder, Product-minded
+            </span>
+
+            {/* Typing animation — purely decorative */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="text-muted-foreground mb-8 min-h-[1.6em] font-mono text-sm"
+              className="mb-8 min-h-[1.6em] font-mono text-sm"
               aria-hidden="true"
             >
               <span className="text-foreground/80">{typedText}</span>
@@ -132,54 +184,55 @@ const HeroSection: React.FC = () => {
               marketplaces, and tooling.
             </motion.p>
 
-            {/* Primary + secondary CTA — dominant, restrained */}
+            {/* Primary CTA */}
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
               className="flex flex-wrap items-center gap-3 mb-8"
             >
-              <a
+              <Link
                 ref={primaryCtaRef}
-                href="/projects"
-                className="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-foreground text-background font-medium text-sm hover:bg-foreground/90 transition-colors will-change-transform"
+                to="/projects"
+                className={cn(
+                  'inline-flex items-center gap-2 h-11 px-6 rounded-full',
+                  'bg-foreground text-background font-medium text-sm',
+                  'transition-colors duration-200 hover:bg-foreground/90',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+                  'will-change-transform'
+                )}
               >
                 View selected work
-                <ArrowRight className="h-4 w-4" />
-              </a>
-
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
             </motion.div>
 
-            {/* Tertiary icon row — quiet, wraps cleanly on small screens */}
+            {/* Tertiary social row */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.7 }}
-              className="flex flex-wrap items-center gap-x-5 gap-y-3 text-muted-foreground"
+              className="flex flex-wrap items-center gap-x-5 gap-y-3"
             >
-              <a
+              <SocialLink
                 href="https://github.com/SnvvSuchandraEtti"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-foreground transition-colors inline-flex items-center gap-1.5 text-sm"
-                aria-label="GitHub profile"
+                label="GitHub profile"
+                icon={<Github className="h-4 w-4" aria-hidden="true" />}
               >
-                <Github className="h-4 w-4" aria-hidden="true" /> GitHub
-              </a>
-              <a
+                GitHub
+              </SocialLink>
+              <SocialLink
                 href="https://linkedin.com/in/suchandra-etti"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-foreground transition-colors inline-flex items-center gap-1.5 text-sm"
-                aria-label="LinkedIn profile"
+                label="LinkedIn profile"
+                icon={<Linkedin className="h-4 w-4" aria-hidden="true" />}
               >
-                <Linkedin className="h-4 w-4" aria-hidden="true" /> LinkedIn
-              </a>
+                LinkedIn
+              </SocialLink>
               <ResumeButton />
             </motion.div>
           </div>
 
-          {/* Right — editorial portrait, no glow ring */}
+          {/* Right — editorial portrait */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -193,20 +246,29 @@ const HeroSection: React.FC = () => {
                 width={520}
                 height={650}
                 loading="eager"
-                // lowercase form is the spec-correct HTML attribute
                 {...({ fetchpriority: 'high' } as React.ImgHTMLAttributes<HTMLImageElement>)}
                 decoding="async"
                 className="w-full h-full object-cover object-top"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
-              <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between">
-                <div>
-                  <p className="eyebrow text-foreground/70">Based in</p>
-                  <p className="text-sm font-medium text-foreground mt-0.5">Andhra Pradesh, IN</p>
-                </div>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/70 backdrop-blur border border-white/[0.1] text-[11px] font-mono">
+              {/* Quiet gradient for text legibility */}
+              <div
+                className="absolute inset-0 bg-gradient-to-t from-background/50 via-transparent to-transparent"
+                aria-hidden="true"
+              />
+              <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-4">
+                <PortraitBadge label="Based in" value="Andhra Pradesh, IN" />
+                <span
+                  className={cn(
+                    'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full',
+                    'bg-background/70 backdrop-blur border border-white/[0.1]',
+                    'text-[11px] font-mono text-foreground/90'
+                  )}
+                >
                   <span
-                    className={`h-1.5 w-1.5 rounded-full bg-emerald-400 ${reduceMotion ? '' : 'animate-pulse'}`}
+                    className={cn(
+                      'h-1.5 w-1.5 rounded-full bg-emerald-400',
+                      !reduceMotion && 'animate-pulse'
+                    )}
                     aria-hidden="true"
                   />
                   Available
@@ -217,16 +279,25 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
 
+      {/* Scroll indicator */}
       <motion.a
         href="#about"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
         aria-label="Scroll to about section"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+        className={cn(
+          'absolute bottom-8 left-1/2 -translate-x-1/2',
+          'flex flex-col items-center gap-2',
+          'text-muted-foreground transition-colors duration-200 hover:text-foreground',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded'
+        )}
       >
         <span className="eyebrow">Scroll</span>
-        <ArrowDown className={`h-4 w-4 ${reduceMotion ? '' : 'animate-bounce'}`} aria-hidden="true" />
+        <ArrowDown
+          className={cn('h-4 w-4', !reduceMotion && 'animate-bounce')}
+          aria-hidden="true"
+        />
       </motion.a>
     </section>
   );

@@ -1,10 +1,12 @@
 import React, { useDeferredValue, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { certificates, Certificate } from '@/data/certificates';
-import Navbar from '@/components/layout/Navbar';
-import SectionHeading from '@/components/ui/SectionHeading';
-import SmoothTransition from '@/components/ui/SmoothTransition';
 import { Search, X } from 'lucide-react';
+import { certificates, Certificate } from '@/data/certificates';
+import { cn } from '@/lib/utils';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import SectionHeading from '@/components/ui/SectionHeading';
+import PageTransition from '@/components/ui/PageTransition';
 import CertificateListCard from '@/components/certificates/CertificateListCard';
 import SEO from '@/components/seo/SEO';
 
@@ -19,7 +21,6 @@ const CATEGORY_LABEL: Record<CategoryFilter, string> = {
 const Certificates: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [category, setCategory] = useState<CategoryFilter>('all');
-  // useDeferredValue keeps typing smooth on large lists.
   const deferredTerm = useDeferredValue(searchTerm);
 
   const { technical, participation } = useMemo(
@@ -56,7 +57,7 @@ const Certificates: React.FC = () => {
   };
 
   return (
-    <SmoothTransition>
+    <PageTransition>
       <div className="min-h-dvh flex flex-col">
         <SEO
           title="Certificates"
@@ -65,19 +66,19 @@ const Certificates: React.FC = () => {
         />
         <Navbar />
 
-        <main className="flex-grow pt-28 pb-20">
+        <main className="flex-grow pt-28 pb-24">
           <div className="container mx-auto px-4 max-w-[1100px]">
             <SectionHeading
               as="h1"
               eyebrow="Recognition"
-              title="Certifications and credentials."
+              title="Certifications & credentials."
               subtitle="A complete index of the courses, exams, and events I've earned recognition for — kept as supporting evidence."
               alignment="left"
             />
 
             {/* Stat row */}
             <dl
-              className="grid grid-cols-3 gap-8 pb-10 mb-10 border-b border-white/[0.08]"
+              className="grid grid-cols-3 gap-6 pb-12 mb-12 border-b border-white/[0.06]"
               aria-label="Certificate counts"
             >
               <Stat label="Total" value={certificates.length} />
@@ -86,39 +87,45 @@ const Certificates: React.FC = () => {
             </dl>
 
             {/* Search + filter */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-10">
+            <div className="flex flex-col md:flex-row gap-4 mb-10">
               <div className="relative flex-1">
                 <label htmlFor="cert-search" className="sr-only">
                   Search certificates
                 </label>
                 <Search
-                  className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"
                   aria-hidden="true"
                 />
                 <input
                   id="cert-search"
                   type="search"
                   inputMode="search"
-                  placeholder="Search by title, issuer, or skill…"
+                  placeholder="Search by title, issuer, or skill..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-10 h-11 rounded-full bg-white/[0.02] border border-white/[0.08] focus:border-white/[0.18] focus:outline-none text-sm transition-colors"
+                  className={cn(
+                    'w-full pl-11 pr-11 h-12 rounded-full',
+                    'bg-white/[0.02] border border-white/[0.08]',
+                    'text-[15px] placeholder:text-muted-foreground/50',
+                    'focus:border-white/[0.2] focus:ring-1 focus:ring-white/[0.2] focus:outline-none transition-all duration-200'
+                  )}
                 />
                 {searchTerm && (
                   <button
                     type="button"
                     onClick={() => setSearchTerm('')}
                     aria-label="Clear search"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded p-1"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 h-6 w-6 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-white/[0.06] rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                   >
                     <X className="h-3.5 w-3.5" aria-hidden="true" />
                   </button>
                 )}
               </div>
+
               <div
                 role="group"
                 aria-label="Filter by category"
-                className="flex gap-1.5"
+                className="flex flex-wrap gap-2"
               >
                 {(Object.keys(CATEGORY_LABEL) as CategoryFilter[]).map((opt) => {
                   const active = category === opt;
@@ -128,26 +135,30 @@ const Certificates: React.FC = () => {
                       type="button"
                       onClick={() => setCategory(opt)}
                       aria-pressed={active}
-                      className={`px-4 h-11 rounded-full text-xs font-mono uppercase tracking-wider transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                      className={cn(
+                        'px-5 h-12 rounded-full text-[13px] font-medium transition-all duration-200',
+                        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                         active
-                          ? 'bg-foreground text-background'
-                          : 'text-muted-foreground border border-white/[0.08] hover:text-foreground hover:border-white/[0.16]'
-                      }`}
+                          ? 'bg-foreground text-background shadow-[0_1px_2px_rgba(255,255,255,0.1)]'
+                          : 'bg-white/[0.02] text-muted-foreground border border-white/[0.08] hover:text-foreground hover:bg-white/[0.04] hover:border-white/[0.12]'
+                      )}
                     >
                       {CATEGORY_LABEL[opt]}{' '}
-                      <span className="opacity-50">({counts[opt]})</span>
+                      <span className={cn('ml-1.5 opacity-60 text-[11px]', active ? 'text-background' : 'text-muted-foreground font-mono')}>
+                        {counts[opt]}
+                      </span>
                     </button>
                   );
                 })}
               </div>
             </div>
 
-            {/* Result count for SR users and visual scanners */}
-            <p className="text-xs text-muted-foreground mb-6" aria-live="polite">
+            {/* Result count */}
+            <p className="text-[13px] font-medium text-muted-foreground/80 mb-6" aria-live="polite">
               Showing {filtered.length} of {certificates.length}
             </p>
 
-            {/* Grid — quiet cards */}
+            {/* Grid */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -159,10 +170,10 @@ const Certificates: React.FC = () => {
                   <motion.div
                     key={cert.id}
                     layout
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.35, delay: Math.min(index * 0.02, 0.2) }}
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.3, delay: Math.min(index * 0.02, 0.1) }}
                   >
                     <CertificateListCard cert={cert} />
                   </motion.div>
@@ -171,30 +182,38 @@ const Certificates: React.FC = () => {
             </motion.div>
 
             {filtered.length === 0 && (
-              <div className="text-center py-20">
-                <p className="text-muted-foreground mb-6">
-                  No certificates match your filters.
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex flex-col items-center justify-center py-32 text-center"
+              >
+                <p className="text-[15px] text-muted-foreground mb-6">
+                  No certificates match your search filters.
                 </p>
                 <button
                   type="button"
                   onClick={resetFilters}
-                  className="inline-flex items-center gap-2 h-10 px-5 rounded-full border border-white/[0.12] text-sm text-foreground hover:bg-white/[0.04] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                  className="inline-flex items-center gap-2 h-10 px-6 rounded-full bg-white/[0.04] border border-white/[0.08] text-[14px] font-medium text-foreground hover:bg-white/[0.08] hover:border-white/[0.15] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                 >
                   Reset filters
                 </button>
-              </div>
+              </motion.div>
             )}
           </div>
         </main>
+
+        <Footer />
       </div>
-    </SmoothTransition>
+    </PageTransition>
   );
 };
 
 const Stat: React.FC<{ label: string; value: number }> = ({ label, value }) => (
-  <div>
-    <dd className="fluid-h3 text-foreground font-semibold tabular-nums">{value}</dd>
-    <dt className="eyebrow mt-1.5">{label}</dt>
+  <div className="flex flex-col gap-1">
+    <dt className="eyebrow text-muted-foreground">{label}</dt>
+    <dd className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground tabular-nums">
+      {value}
+    </dd>
   </div>
 );
 

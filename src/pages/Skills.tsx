@@ -2,13 +2,15 @@ import React, { useEffect, useMemo } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import { skills, Skill } from '@/data/skills';
+import { cn } from '@/lib/utils';
 import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 import SectionHeading from '@/components/ui/SectionHeading';
-import SmoothTransition from '@/components/ui/SmoothTransition';
+import PageTransition from '@/components/ui/PageTransition';
 import SEO from '@/components/seo/SEO';
 import { getSkillIconUrl, FALLBACK_SKILL_ICON } from '@/lib/skillIcons';
 
-// Curated category order — most-used first, instead of alphabetical noise.
+// Most-used first
 const CATEGORY_ORDER: Skill['category'][] = [
   'Programming',
   'Framework',
@@ -37,16 +39,18 @@ const Skills: React.FC = () => {
       (acc[skill.category] ||= []).push(skill);
       return acc;
     }, {} as Record<string, Skill[]>);
-    // Sort by proficiency desc, then name asc within each category.
+    
+    // Sort by proficiency desc, then name asc
     Object.values(g).forEach((list) =>
       list.sort((a, b) => b.proficiency - a.proficiency || a.name.localeCompare(b.name))
     );
+    
     const ordered: Skill['category'][] = [
       ...CATEGORY_ORDER.filter((c) => g[c]?.length),
       ...(Object.keys(g) as Skill['category'][]).filter((c) => !CATEGORY_ORDER.includes(c)),
     ];
+    
     return { grouped: g, categories: ordered };
-
   }, []);
 
   useEffect(() => {
@@ -63,7 +67,7 @@ const Skills: React.FC = () => {
   }, [location, reduceMotion]);
 
   return (
-    <SmoothTransition>
+    <PageTransition>
       <div className="min-h-dvh flex flex-col">
         <SEO
           title="Skills"
@@ -72,46 +76,46 @@ const Skills: React.FC = () => {
         />
         <Navbar />
 
-        <main className="flex-grow pt-28 pb-20">
+        <main className="flex-grow pt-28 pb-24">
           <div className="container mx-auto px-4 max-w-[1100px]">
             <SectionHeading
               as="h1"
               eyebrow="Capabilities"
-              title="Tools and technologies I work with."
-              subtitle="Grouped by category and ordered by how often I reach for them. Every name here is one I've shipped production code with."
+              title="Tools & technologies."
+              subtitle="Grouped by category and ordered by how often I reach for them. Every tool listed here is one I've used in production or deep learning environments."
               alignment="left"
             />
 
-            <div className="space-y-20">
+            <div className="space-y-24 mt-16">
               {categories.map((cat, idx) => (
                 <motion.section
                   key={cat}
                   aria-labelledby={`skills-${cat}`}
                   initial={{ opacity: 0, y: 14 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
+                  viewport={{ once: true, amount: 0.1 }}
                   transition={{ duration: 0.5, delay: Math.min(idx * 0.05, 0.2) }}
                 >
-                  <div className="flex items-baseline justify-between mb-8 pb-4 border-b border-white/[0.08]">
-                    <h2 id={`skills-${cat}`} className="fluid-h3 text-foreground">
+                  <div className="flex items-end justify-between mb-8 pb-4 border-b border-white/[0.06]">
+                    <h2 id={`skills-${cat}`} className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
                       {cat}
                     </h2>
-                    <span className="eyebrow">
-                      {grouped[cat].length} {grouped[cat].length === 1 ? 'item' : 'items'}
+                    <span className="text-[13px] font-mono text-muted-foreground/60 mb-1">
+                      {grouped[cat].length}
                     </span>
                   </div>
 
                   <ul
-                    className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-8 gap-y-6"
+                    className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-8"
                     aria-label={`${cat} skills`}
                   >
                     {grouped[cat].map((s) => (
                       <li
                         key={s.id}
                         id={s.id}
-                        className="flex items-center gap-3 group scroll-mt-28"
+                        className="flex items-center gap-4 group scroll-mt-32"
                       >
-                        <div className="w-9 h-9 rounded-md border border-white/[0.06] bg-white/[0.02] p-1.5 shrink-0 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-lg border border-white/[0.08] bg-white/[0.02] p-2 shrink-0 flex items-center justify-center transition-colors group-hover:border-white/[0.15] group-hover:bg-white/[0.04]">
                           <img
                             src={getSkillIconUrl(s.id)}
                             alt=""
@@ -119,7 +123,7 @@ const Skills: React.FC = () => {
                             height={24}
                             loading="lazy"
                             decoding="async"
-                            className="w-6 h-6 object-contain"
+                            className="w-full h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300 opacity-80 group-hover:opacity-100"
                             onError={(e) => {
                               const img = e.currentTarget;
                               if (img.src !== FALLBACK_SKILL_ICON) img.src = FALLBACK_SKILL_ICON;
@@ -127,16 +131,25 @@ const Skills: React.FC = () => {
                           />
                         </div>
                         <div className="min-w-0">
-                          <p className="text-sm font-medium text-foreground truncate">
+                          <p className="text-[14px] font-medium text-foreground/90 group-hover:text-foreground transition-colors truncate">
                             {s.name}
                           </p>
                           <p
-                            className="text-xs text-muted-foreground"
+                            className="text-[11px] font-mono tracking-widest text-muted-foreground/50 mt-1"
                             aria-label={`Proficiency: ${PROFICIENCY_LABEL[s.proficiency] ?? s.proficiency} (${s.proficiency} of 5)`}
                           >
-                            <span aria-hidden="true">
-                              {'●'.repeat(s.proficiency)}
-                              <span className="opacity-30">{'●'.repeat(5 - s.proficiency)}</span>
+                            <span aria-hidden="true" className="flex gap-[2px]">
+                              {Array.from({ length: 5 }).map((_, i) => (
+                                <span 
+                                  key={i} 
+                                  className={cn(
+                                    "h-1 rounded-full flex-1 transition-colors duration-300",
+                                    i < s.proficiency 
+                                      ? "bg-primary/60 group-hover:bg-primary" 
+                                      : "bg-white/[0.06] group-hover:bg-white/[0.1]"
+                                  )}
+                                />
+                              ))}
                             </span>
                           </p>
                         </div>
@@ -148,8 +161,10 @@ const Skills: React.FC = () => {
             </div>
           </div>
         </main>
+
+        <Footer />
       </div>
-    </SmoothTransition>
+    </PageTransition>
   );
 };
 

@@ -39,24 +39,16 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
         <p className="eyebrow eyebrow-accent mb-4">{eyebrow}</p>
       )}
       <MotionHeading
-        initial={{ opacity: 0, y: 8 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.05 }}
         className="fluid-h2 text-foreground"
       >
         {title}
       </MotionHeading>
       {subtitle && (
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.15 }}
+        <p
           className="mt-4 fluid-lead text-muted-foreground prose-measure"
         >
           {subtitle}
-        </motion.p>
+        </p>
       )}
     </motion.div>
   );

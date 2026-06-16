@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Fonts loaded via <link> in index.html for non-render-blocking performance */
 
 @tailwind base;
 @tailwind components;
@@ -88,8 +88,8 @@
 }
 
 @layer utilities {
-  .fluid-h1 { font-size: var(--text-h1); line-height: 1.04; letter-spacing: -0.025em; font-weight: 600; }
-  .fluid-h2 { font-size: var(--text-h2); line-height: 1.12; letter-spacing: -0.02em; font-weight: 600; }
+  .fluid-h1 { font-size: var(--text-h1); line-height: 1.04; letter-spacing: -0.025em; font-weight: 600; text-wrap: balance; }
+  .fluid-h2 { font-size: var(--text-h2); line-height: 1.12; letter-spacing: -0.02em; font-weight: 600; text-wrap: balance; }
   .fluid-h3 { font-size: var(--text-h3); line-height: 1.25; letter-spacing: -0.012em; font-weight: 600; }
   .fluid-lead { font-size: var(--text-lead); line-height: 1.55; }
   .fluid-body { font-size: var(--text-body); line-height: 1.7; }
