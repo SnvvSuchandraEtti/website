@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import AmbientToggle from '@/components/ui/AmbientToggle';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 
 /* ─── Data ────────────────────────────────────────────────────────── */
 
@@ -197,11 +198,13 @@ const Navbar: React.FC = () => {
           ))}
           <NavDivider />
           <AmbientToggle />
+          <ThemeToggle />
         </nav>
 
         {/* ── Mobile / tablet controls (<lg) ──────────────────────── */}
         <div className="lg:hidden flex items-center gap-1.5">
           <AmbientToggle />
+          <ThemeToggle />
 
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>

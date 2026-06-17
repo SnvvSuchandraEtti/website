@@ -3,12 +3,18 @@ import { HelmetProvider } from 'react-helmet-async'
 import App from './App.tsx'
 import './index.css'
 
-// Lock the document to dark mode at boot; light mode and system theme are
-// intentionally not supported in this portfolio.
+// Initialize theme based on user preference or system settings
 if (typeof document !== 'undefined') {
-  document.documentElement.classList.add('dark');
-  document.documentElement.classList.remove('light');
-  document.documentElement.style.colorScheme = 'dark';
+  const stored = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = stored === 'dark' || (stored === null && prefersDark);
+  if (isDark) {
+    document.documentElement.classList.add('dark');
+    document.documentElement.style.colorScheme = 'dark';
+  } else {
+    document.documentElement.classList.remove('dark');
+    document.documentElement.style.colorScheme = 'light';
+  }
 }
 
 createRoot(document.getElementById("root")!).render(

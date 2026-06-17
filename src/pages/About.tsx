@@ -112,7 +112,7 @@ const EduRow: React.FC<{
   period: string;
   current?: boolean;
 }> = ({ degree, institution, period, current = false }) => (
-  <div className="py-3 first:pt-0 border-b border-white/[0.04] last:border-b-0">
+  <div className="py-3 first:pt-0 border-b border-border/[0.04] last:border-b-0">
     <p className="text-sm text-foreground flex items-center gap-2">
       {degree}
       {current && (
@@ -182,7 +182,7 @@ const CrossLink: React.FC<{
     to={to}
     className={cn(
       'inline-flex items-center gap-1.5 text-sm text-foreground',
-      'border-b border-white/[0.12] pb-0.5',
+      'border-b border-border/[0.12] pb-0.5',
       'transition-colors duration-200 hover:border-foreground hover:text-foreground',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50',
       'focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded'
@@ -231,7 +231,7 @@ const About: React.FC = () => {
 
           {/* ── Quick facts strip ─────────────────────────────────── */}
           <dl
-            className="grid grid-cols-2 sm:grid-cols-4 gap-x-8 gap-y-6 pb-12 mb-16 border-b border-white/[0.08]"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-x-8 gap-y-6 pb-12 mb-16 border-b border-border/[0.08]"
             aria-label="Quick facts"
           >
             <Fact label="Based in" value="Andhra Pradesh, IN" />
@@ -319,7 +319,7 @@ const About: React.FC = () => {
 
             {/* ── Sidebar — quiet, editorial ──────────────────────── */}
             <aside
-              className="space-y-10 lg:pl-6 lg:border-l lg:border-white/[0.06]"
+              className="space-y-10 lg:pl-6 lg:border-l lg:border-border/[0.06]"
               aria-label="Supplementary information"
             >
               <SidebarBlock
@@ -415,7 +415,7 @@ const About: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.5 }}
-            className="mt-24 pt-12 border-t border-white/[0.08] flex flex-col sm:flex-row flex-wrap items-start sm:items-center justify-between gap-6"
+            className="mt-24 pt-12 border-t border-border/[0.08] flex flex-col sm:flex-row flex-wrap items-start sm:items-center justify-between gap-6"
           >
             <div>
               <p className="text-foreground font-medium text-sm mb-1">

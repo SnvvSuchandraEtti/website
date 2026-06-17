@@ -33,7 +33,7 @@ const Section: React.FC<{
   children: React.ReactNode 
 }> = ({ eyebrow, title, children }) => (
   <section className="scroll-mt-32">
-    <div className="flex items-baseline gap-4 mb-5 border-b border-white/[0.04] pb-4">
+    <div className="flex items-baseline gap-4 mb-5 border-b border-border/[0.04] pb-4">
       <span className="font-mono text-sm text-primary/60">{eyebrow}</span>
       <h2 className="text-xl sm:text-2xl font-semibold text-foreground tracking-tight">{title}</h2>
     </div>
@@ -64,7 +64,7 @@ const ActionButton: React.FC<{
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
     variant === 'primary'
       ? 'bg-foreground text-background hover:bg-foreground/90 shadow-[0_1px_2px_rgba(255,255,255,0.1)]'
-      : 'bg-white/[0.03] border border-white/[0.08] text-foreground hover:bg-white/[0.06] hover:border-white/[0.12]'
+      : 'bg-white/[0.03] border border-border/[0.08] text-foreground hover:bg-white/[0.06] hover:border-border/[0.12]'
   );
 
   return (
@@ -203,7 +203,7 @@ const ProjectDetail: React.FC = () => {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="rounded-2xl overflow-hidden border border-white/[0.08] bg-card/50 ring-1 ring-white/[0.02] shadow-2xl aspect-[16/9] md:aspect-[21/9] mb-14"
+              className="rounded-2xl overflow-hidden border border-border/[0.08] bg-card/50 ring-1 ring-white/[0.02] shadow-2xl aspect-[16/9] md:aspect-[21/9] mb-14"
             >
               {project.imageUrl ? (
                 <img
@@ -222,7 +222,7 @@ const ProjectDetail: React.FC = () => {
 
             {/* ── Meta Strip ────────────────────────────────────────── */}
             <dl 
-              className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 pb-12 mb-16 border-b border-white/[0.06]"
+              className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 pb-12 mb-16 border-b border-border/[0.06]"
               aria-label="Project details"
             >
               <MetaItem 
@@ -278,7 +278,7 @@ const ProjectDetail: React.FC = () => {
                       {project.technologies.map((t) => (
                         <li
                           key={t}
-                          className="px-2.5 py-1 text-[12px] font-mono text-muted-foreground/90 border border-white/[0.08] bg-white/[0.02] rounded-md transition-colors hover:border-white/[0.15] hover:text-foreground"
+                          className="px-2.5 py-1 text-[12px] font-mono text-muted-foreground/90 border border-border/[0.08] bg-white/[0.02] rounded-md transition-colors hover:border-border/[0.15] hover:text-foreground"
                         >
                           {t}
                         </li>
@@ -289,7 +289,7 @@ const ProjectDetail: React.FC = () => {
 
                 {/* Actions */}
                 {(project.githubUrl || project.liveUrl) && (
-                  <div className="flex flex-col gap-3 pt-6 border-t border-white/[0.06]">
+                  <div className="flex flex-col gap-3 pt-6 border-t border-border/[0.06]">
                     {project.liveUrl && (
                       <ActionButton
                         href={project.liveUrl}
@@ -322,7 +322,7 @@ const ProjectDetail: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.5 }}
-                className="mt-32 pt-16 border-t border-white/[0.06]"
+                className="mt-32 pt-16 border-t border-border/[0.06]"
               >
                 <h2 id="related-heading" className="eyebrow eyebrow-accent mb-8">
                   Related work
@@ -334,13 +334,13 @@ const ProjectDetail: React.FC = () => {
                         to={`/projects/${r.id}`}
                         className={cn(
                           'group flex flex-col sm:flex-row items-start sm:items-center gap-5 p-5 rounded-2xl',
-                          'bg-white/[0.02] border border-white/[0.04]',
+                          'bg-white/[0.04] border border-border/[0.04]',
                           'transition-all duration-300',
-                          'hover:bg-white/[0.04] hover:border-white/[0.1] hover:shadow-lg',
+                          'hover:bg-white/[0.04] hover:border-border/[0.1] hover:shadow-lg',
                           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50'
                         )}
                       >
-                        <div className="w-full sm:w-24 h-48 sm:h-24 shrink-0 rounded-xl overflow-hidden border border-white/[0.06]">
+                        <div className="w-full sm:w-24 h-48 sm:h-24 shrink-0 rounded-xl overflow-hidden border border-border/[0.06]">
                           {r.imageUrl ? (
                             <img src={r.imageUrl} alt="" loading="lazy" className="w-full h-full object-cover" />
                           ) : (

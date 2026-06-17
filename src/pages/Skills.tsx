@@ -96,7 +96,7 @@ const Skills: React.FC = () => {
                   viewport={{ once: true, amount: 0.1 }}
                   transition={{ duration: 0.5, delay: Math.min(idx * 0.05, 0.2) }}
                 >
-                  <div className="flex items-end justify-between mb-8 pb-4 border-b border-white/[0.06]">
+                  <div className="flex items-end justify-between mb-8 pb-4 border-b border-border/[0.06]">
                     <h2 id={`skills-${cat}`} className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
                       {cat}
                     </h2>
@@ -115,7 +115,7 @@ const Skills: React.FC = () => {
                         id={s.id}
                         className="flex items-center gap-4 group scroll-mt-32"
                       >
-                        <div className="w-10 h-10 rounded-lg border border-white/[0.08] bg-white/[0.02] p-2 shrink-0 flex items-center justify-center transition-colors group-hover:border-white/[0.15] group-hover:bg-white/[0.04]">
+                        <div className="w-10 h-10 rounded-lg border border-border/[0.08] bg-white/[0.02] p-2 shrink-0 flex items-center justify-center transition-colors group-hover:border-border/[0.15] group-hover:bg-white/[0.04]">
                           <img
                             src={getSkillIconUrl(s.id)}
                             alt=""

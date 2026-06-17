@@ -100,7 +100,7 @@ const Projects: React.FC = () => {
                         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                         selected
                           ? 'bg-foreground text-background shadow-[0_1px_2px_rgba(255,255,255,0.1)]'
-                          : 'bg-white/[0.02] text-muted-foreground border border-white/[0.08] hover:text-foreground hover:bg-white/[0.04] hover:border-white/[0.12]'
+                          : 'bg-white/[0.02] text-muted-foreground border border-border/[0.08] hover:text-foreground hover:bg-white/[0.04] hover:border-border/[0.12]'
                       )}
                     >
                       {opt.label}
@@ -145,7 +145,7 @@ const Projects: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setCategory('all')}
-                  className="inline-flex items-center gap-2 h-10 px-6 rounded-full bg-white/[0.04] border border-white/[0.08] text-[14px] font-medium text-foreground hover:bg-white/[0.08] hover:border-white/[0.15] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                  className="inline-flex items-center gap-2 h-10 px-6 rounded-full bg-white/[0.04] border border-border/[0.08] text-[14px] font-medium text-foreground hover:bg-white/[0.08] hover:border-border/[0.15] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                 >
                   Show all projects
                 </button>

@@ -5,11 +5,44 @@
 @tailwind utilities;
 
 @layer base {
-  /*
-   * Dark-mode-only editorial design tokens.
-   * Inspired by Linear / Vercel / jestsee — restrained, layered, type-led.
-   */
-  :root,
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+
+    --radius: 0.75rem;
+
+    --glass-bg: 0 0% 0% / 0.04;
+    --glass-border: 0 0% 0% / 0.08;
+
+    --surface-1: 0 0% 98%;
+    --hairline: 0 0% 0% / 0.07;
+  }
+
   .dark {
     --background: 240 8% 4%;
     --foreground: 0 0% 98%;
@@ -144,30 +177,30 @@
    * Unified surface system — one card, one border, one hover.
    */
   .surface {
-    @apply bg-card border border-white/[0.06] rounded-2xl;
+    @apply bg-card border border-border/[0.06] rounded-2xl;
   }
   .surface-hover {
-    @apply transition-colors duration-300 hover:border-white/[0.12] hover:bg-card/90;
+    @apply transition-colors duration-300 hover:border-border/[0.12] hover:bg-card/90;
   }
 
   /* Legacy glass aliases (kept for back-compat, but quieter) */
   .glass-effect {
-    @apply bg-card/70 border border-white/[0.06] shadow-lg shadow-black/20;
+    @apply bg-card/70 border border-border/[0.06] shadow-lg shadow-black/20;
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
   }
   .glass-card {
-    @apply bg-card/70 border border-white/[0.06] shadow-lg shadow-black/20 transition-colors duration-300 hover:border-white/[0.12];
+    @apply bg-card/70 border border-border/[0.06] shadow-lg shadow-black/20 transition-colors duration-300 hover:border-white/[0.12];
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
   }
   .glass-nav {
-    @apply bg-background/85 border-b border-white/[0.06];
+    @apply bg-background/85 border-b border-border/[0.06];
     backdrop-filter: blur(18px) saturate(140%);
     -webkit-backdrop-filter: blur(18px) saturate(140%);
   }
   .glass-button {
-    @apply bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] transition-colors duration-200;
+    @apply bg-white/[0.04] hover:bg-white/[0.08] border border-border/[0.08] transition-colors duration-200;
   }
 
   .text-gradient {
@@ -175,7 +208,7 @@
   }
 
   .card-hover {
-    @apply transition-colors duration-300 hover:border-white/[0.12];
+    @apply transition-colors duration-300 hover:border-border/[0.12];
   }
 
   .link-underline {
@@ -183,7 +216,7 @@
   }
 
   .apple-card {
-    @apply rounded-2xl overflow-hidden bg-card border border-white/[0.06] transition-colors duration-300 hover:border-white/[0.12];
+    @apply rounded-2xl overflow-hidden bg-card border border-border/[0.06] transition-colors duration-300 hover:border-white/[0.12];
   }
 
   .hover-lift {
@@ -210,14 +243,14 @@
   }
 
   .frosted-glass {
-    @apply bg-card/70 border border-white/[0.08];
+    @apply bg-card/70 border border-border/[0.08];
     backdrop-filter: blur(16px) saturate(140%);
     -webkit-backdrop-filter: blur(16px) saturate(140%);
   }
 
   .apple-button {
     @apply px-6 py-3 rounded-full bg-white/[0.05] hover:bg-white/[0.09]
-           border border-white/[0.1] transition-colors duration-200
+           border border-border/[0.1] transition-colors duration-200
            font-medium text-foreground;
   }
 
