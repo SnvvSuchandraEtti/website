@@ -251,7 +251,7 @@ const NavLogo: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => (
     )}
     aria-label="Suchandra Etti — Home"
   >
-    {/* Animated monogram mark */}
+    {/* Profile photo mark */}
     <motion.div
       className={cn(
         'relative flex items-center justify-center rounded-lg overflow-hidden',
@@ -261,13 +261,15 @@ const NavLogo: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => (
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.95 }}
     >
-      {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary via-accent/80 to-primary rounded-lg opacity-90" />
-      {/* Subtle shimmer sweep */}
+      <img
+        src="/assets/images/profile/suchandra-main.png"
+        alt="Suchandra Etti"
+        className="h-full w-full object-cover"
+        loading="eager"
+        decoding="async"
+      />
+      {/* Subtle shimmer sweep on hover */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700 ease-out" />
-      <span className="relative z-10 text-[11px] font-bold text-white tracking-tight">
-        SE
-      </span>
     </motion.div>
     {/* Wordmark */}
     <motion.span

@@ -97,7 +97,7 @@ const Skills: React.FC = () => {
                   transition={{ duration: 0.5, delay: Math.min(idx * 0.05, 0.2) }}
                 >
                   <div className="flex items-end justify-between mb-8 pb-4 border-b border-border/[0.06]">
-                    <h2 id={`skills-${cat}`} className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
+                    <h2 id={`skills-${cat}`} className="text-xl sm:text-2xl font-medium tracking-tight text-foreground">
                       {cat}
                     </h2>
                     <span className="text-[13px] font-mono text-muted-foreground/60 mb-1">

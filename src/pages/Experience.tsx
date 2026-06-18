@@ -87,7 +87,7 @@ const Experience: React.FC = () => {
                       <span className="text-foreground/60">{exp.location}</span>
                     </p>
 
-                    <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground mb-1">
+                    <h2 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground mb-1">
                       {exp.role || exp.title}
                     </h2>
                     

@@ -35,7 +35,7 @@ const Section: React.FC<{
   <section className="scroll-mt-32">
     <div className="flex items-baseline gap-4 mb-5 border-b border-border/[0.04] pb-4">
       <span className="font-mono text-sm text-primary/60">{eyebrow}</span>
-      <h2 className="text-xl sm:text-2xl font-semibold text-foreground tracking-tight">{title}</h2>
+      <h2 className="text-xl sm:text-2xl font-medium text-foreground tracking-tight">{title}</h2>
     </div>
     <div className="prose-measure text-[15px] leading-[1.75] text-muted-foreground/90 space-y-5">
       {children}
@@ -190,7 +190,7 @@ const ProjectDetail: React.FC = () => {
                 <p className="eyebrow text-muted-foreground">Case study</p>
               </div>
               
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-6 leading-[1.1]">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-foreground mb-6 leading-[1.1]">
                 {project.title}
               </h1>
               <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed prose-measure">
@@ -273,7 +273,7 @@ const ProjectDetail: React.FC = () => {
               <aside className="space-y-10 lg:sticky lg:top-32 lg:self-start">
                 {project.technologies.length > 0 && (
                   <div>
-                    <h2 className="text-sm font-semibold text-foreground mb-4">Technologies used</h2>
+                    <h2 className="text-sm font-medium text-foreground mb-4">Technologies used</h2>
                     <ul className="flex flex-wrap gap-2" aria-label="Technologies">
                       {project.technologies.map((t) => (
                         <li

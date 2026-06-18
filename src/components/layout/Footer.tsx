@@ -155,7 +155,7 @@ const Footer: React.FC = () => {
               className="inline-block mb-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded"
               aria-label="Suchandra Etti — Home"
             >
-              <span className="text-lg font-bold tracking-tight text-foreground">
+              <span className="text-lg font-semibold tracking-tight text-foreground">
                 Suchandra Etti
               </span>
             </Link>
