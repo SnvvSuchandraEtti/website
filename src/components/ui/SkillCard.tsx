@@ -21,7 +21,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, className, index = 0 }) =>
 
   const gradientStyle = skill.color ? {
     backgroundColor: isHovered ? `${skill.color}15` : 'transparent',
-    borderColor: isHovered ? `${skill.color}66` : 'rgba(255, 255, 255, 0.1)'
+    borderColor: isHovered ? `${skill.color}66` : undefined
   } : {};
 
   return (
@@ -44,7 +44,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, className, index = 0 }) =>
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
         className={cn(
-          'glass-effect p-5 rounded-xl h-full flex flex-col shadow-lg border border-white/10 backdrop-blur-md transition-all duration-300',
+          'glass-effect p-5 rounded-xl h-full flex flex-col shadow-lg border border-border backdrop-blur-md transition-all duration-300',
           isHovered ? 'shadow-xl shadow-primary/10' : 'shadow-md',
           className
         )}

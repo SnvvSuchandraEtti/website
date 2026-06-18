@@ -115,7 +115,7 @@ const Skills: React.FC = () => {
                         id={s.id}
                         className="flex items-center gap-4 group scroll-mt-32"
                       >
-                        <div className="w-10 h-10 rounded-lg border border-border/[0.08] bg-white/[0.02] p-2 shrink-0 flex items-center justify-center transition-colors group-hover:border-border/[0.15] group-hover:bg-white/[0.04]">
+                        <div className="w-10 h-10 rounded-lg border border-border/[0.08] bg-muted/30 p-2 shrink-0 flex items-center justify-center transition-colors group-hover:border-border/[0.15] group-hover:bg-muted/40">
                           <img
                             src={getSkillIconUrl(s.id)}
                             alt=""
@@ -146,7 +146,7 @@ const Skills: React.FC = () => {
                                     "h-1 rounded-full flex-1 transition-colors duration-300",
                                     i < s.proficiency 
                                       ? "bg-primary/60 group-hover:bg-primary" 
-                                      : "bg-white/[0.06] group-hover:bg-white/[0.1]"
+                                      : "bg-muted/50 group-hover:bg-muted/70"
                                   )}
                                 />
                               ))}

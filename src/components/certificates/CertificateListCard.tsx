@@ -30,7 +30,7 @@ const CertificateListCard: React.FC<Props> = ({ cert }) => {
   return (
     <Link
       to={`/certificates/${cert.id}`}
-      className="group flex flex-col h-full rounded-2xl border border-white/[0.06] bg-card overflow-hidden hover:border-white/[0.16] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      className="group flex flex-col h-full rounded-2xl border border-border bg-card overflow-hidden hover:border-foreground/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <CertificatePdfThumb pdfUrl={cert.pdfUrl} title={cert.title} />
       <div className="flex flex-col flex-1 p-5">
@@ -86,7 +86,7 @@ const CertificateListCard: React.FC<Props> = ({ cert }) => {
       )}
 
       {/* Footer */}
-      <div className="mt-auto flex items-center justify-between pt-4 border-t border-white/[0.06]">
+      <div className="mt-auto flex items-center justify-between pt-4 border-t border-border">
         <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground">
           <FileText className="h-3 w-3" />
           {cert.pdfUrl ? 'PDF certificate' : 'No PDF'}

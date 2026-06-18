@@ -150,7 +150,7 @@ const AdaptivePdfViewer: React.FC<AdaptivePdfViewerProps> = ({
     return (
       <div
         className={cn(
-          'border border-dashed border-white/[0.1] rounded-xl p-10 text-center bg-white/[0.02]',
+          'border border-dashed border-border rounded-xl p-10 text-center bg-muted/30',
           className,
         )}
       >
@@ -167,7 +167,7 @@ const AdaptivePdfViewer: React.FC<AdaptivePdfViewerProps> = ({
       <div
         ref={wrapperRef}
         className={cn(
-          'mx-auto rounded-xl overflow-hidden border border-white/[0.08] bg-white relative',
+          'mx-auto rounded-xl overflow-hidden border border-border bg-white relative',
           isLandscape ? 'max-w-full' : 'max-w-[640px]',
         )}
         style={{ aspectRatio }}

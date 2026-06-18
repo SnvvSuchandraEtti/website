@@ -96,7 +96,7 @@ export const CertificateViewer: React.FC<ViewerProps> = ({
       {...a11yProps}
     >
       {/* Toolbar */}
-      <div className="flex items-center justify-between gap-3 px-4 sm:px-6 h-14 border-b border-white/[0.08] bg-background/80">
+      <div className="flex items-center justify-between gap-3 px-4 sm:px-6 h-14 border-b border-border bg-background/80">
         <div className="flex items-center gap-3 min-w-0">
           {standalone && (
             <Button
@@ -138,7 +138,7 @@ export const CertificateViewer: React.FC<ViewerProps> = ({
             <ZoomIn className="w-4 h-4" />
           </Button>
 
-          <div className="w-px h-5 bg-white/[0.08] mx-1" />
+          <div className="w-px h-5 bg-muted/60 mx-1" />
 
           <Button
             variant={fit === 'width' ? 'secondary' : 'ghost'}
@@ -161,7 +161,7 @@ export const CertificateViewer: React.FC<ViewerProps> = ({
             <span className="hidden sm:inline">Page</span>
           </Button>
 
-          <div className="w-px h-5 bg-white/[0.08] mx-1" />
+          <div className="w-px h-5 bg-muted/60 mx-1" />
 
           {pdfUrl && (
             <>

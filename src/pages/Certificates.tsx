@@ -78,7 +78,7 @@ const Certificates: React.FC = () => {
 
             {/* Stat row */}
             <dl
-              className="grid grid-cols-3 gap-6 pb-12 mb-12 border-b border-white/[0.06]"
+              className="grid grid-cols-3 gap-6 pb-12 mb-12 border-b border-border"
               aria-label="Certificate counts"
             >
               <Stat label="Total" value={certificates.length} />
@@ -105,9 +105,9 @@ const Certificates: React.FC = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className={cn(
                     'w-full pl-11 pr-11 h-12 rounded-full',
-                    'bg-white/[0.02] border border-white/[0.08]',
+                    'bg-muted/30 border border-border',
                     'text-[15px] placeholder:text-muted-foreground/50',
-                    'focus:border-white/[0.2] focus:ring-1 focus:ring-white/[0.2] focus:outline-none transition-all duration-200'
+                    'focus:border-foreground/25 focus:ring-1 focus:ring-primary/30 focus:outline-none transition-all duration-200'
                   )}
                 />
                 {searchTerm && (
@@ -115,7 +115,7 @@ const Certificates: React.FC = () => {
                     type="button"
                     onClick={() => setSearchTerm('')}
                     aria-label="Clear search"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 h-6 w-6 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-white/[0.06] rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 h-6 w-6 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                   >
                     <X className="h-3.5 w-3.5" aria-hidden="true" />
                   </button>
@@ -140,7 +140,7 @@ const Certificates: React.FC = () => {
                         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                         active
                           ? 'bg-foreground text-background shadow-[0_1px_2px_rgba(255,255,255,0.1)]'
-                          : 'bg-white/[0.02] text-muted-foreground border border-white/[0.08] hover:text-foreground hover:bg-white/[0.04] hover:border-white/[0.12]'
+                          : 'bg-muted/30 text-muted-foreground border border-border hover:text-foreground hover:bg-muted/40 hover:border-foreground/15'
                       )}
                     >
                       {CATEGORY_LABEL[opt]}{' '}
@@ -193,7 +193,7 @@ const Certificates: React.FC = () => {
                 <button
                   type="button"
                   onClick={resetFilters}
-                  className="inline-flex items-center gap-2 h-10 px-6 rounded-full bg-white/[0.04] border border-white/[0.08] text-[14px] font-medium text-foreground hover:bg-white/[0.08] hover:border-white/[0.15] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                  className="inline-flex items-center gap-2 h-10 px-6 rounded-full bg-muted/40 border border-border text-[14px] font-medium text-foreground hover:bg-muted/60 hover:border-foreground/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                 >
                   Reset filters
                 </button>

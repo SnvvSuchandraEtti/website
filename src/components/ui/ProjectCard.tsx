@@ -27,8 +27,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index = 0 }) => {
       <Link
         to={`/projects/${project.id}`}
         className={cn(
-          'flex flex-col h-full rounded-2xl overflow-hidden bg-card border border-white/[0.06]',
-          'transition-colors duration-300 hover:border-white/[0.14]'
+          'flex flex-col h-full rounded-2xl overflow-hidden bg-card border border-border',
+          'transition-colors duration-300 hover:border-foreground/20'
         )}
       >
         {/* Screenshot — large, no overlay text */}
@@ -72,11 +72,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index = 0 }) => {
             </p>
           )}
 
-          <div className="flex flex-wrap gap-1.5 mt-auto pt-5 border-t border-white/[0.06]">
+          <div className="flex flex-wrap gap-1.5 mt-auto pt-5 border-t border-border">
             {project.technologies.slice(0, 3).map((tech) => (
               <span
                 key={tech}
-                className="px-2.5 py-1 text-[11px] font-mono tracking-wide text-muted-foreground bg-white/[0.03] border border-white/[0.06] rounded-md"
+                className="px-2.5 py-1 text-[11px] font-mono tracking-wide text-muted-foreground bg-muted/40 border border-border rounded-md"
               >
                 {tech}
               </span>

@@ -57,7 +57,7 @@ const Experience: React.FC = () => {
             <ol className="relative space-y-20 mt-16" aria-label="Work history">
               {/* Timeline Rule */}
               <span
-                className="absolute left-[5px] sm:left-[11px] top-3 bottom-12 w-[1px] bg-white/[0.08]"
+                className="absolute left-[5px] sm:left-[11px] top-3 bottom-12 w-[1px] bg-border"
                 aria-hidden="true"
               />
 
@@ -73,7 +73,7 @@ const Experience: React.FC = () => {
                 >
                   {/* Timeline Dot */}
                   <span
-                    className="absolute left-0 sm:left-2 top-2.5 w-3 h-3 rounded-full border-[3px] border-background bg-primary shadow-[0_0_0_1px_rgba(255,255,255,0.08)] group-hover:bg-accent group-hover:shadow-[0_0_0_1px_rgba(255,255,255,0.2)] transition-all duration-300 z-10"
+                    className="absolute left-0 sm:left-2 top-2.5 w-3 h-3 rounded-full border-[3px] border-background bg-primary shadow-[0_0_0_1px_hsl(var(--border))] group-hover:bg-accent group-hover:shadow-[0_0_0_1px_hsl(var(--border))] transition-all duration-300 z-10"
                     aria-hidden="true"
                   />
 
@@ -81,9 +81,9 @@ const Experience: React.FC = () => {
                   <header className="mb-4">
                     <p className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground/80 mb-2">
                       <time dateTime={new Date(exp.startDate).toISOString()}>{exp.startDate}</time>
-                      <span className="mx-2 text-white/[0.2]">/</span>
-                      <time dateTime={exp.endDate ? new Date(exp.endDate).toISOString() : undefined}>{exp.endDate || 'Present'}</time>
-                      <span className="mx-2 text-white/[0.2]">/</span>
+                      <span className="mx-2 text-muted-foreground/30">/</span>
+                      <time dateTime={exp.endDate && exp.endDate.toLowerCase() !== 'present' ? new Date(exp.endDate).toISOString() : undefined}>{exp.endDate || 'Present'}</time>
+                      <span className="mx-2 text-muted-foreground/30">/</span>
                       <span className="text-foreground/60">{exp.location}</span>
                     </p>
 
@@ -99,7 +99,7 @@ const Experience: React.FC = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`${exp.company} website (opens in new tab)`}
-                          className="inline-flex items-center justify-center h-6 w-6 rounded-md hover:bg-white/[0.08] text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                          className="inline-flex items-center justify-center h-6 w-6 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                         >
                           <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
                         </a>
@@ -135,7 +135,7 @@ const Experience: React.FC = () => {
                       {exp.technologies.map((t) => (
                         <li
                           key={t}
-                          className="px-2.5 py-1 text-[11px] font-mono text-muted-foreground border border-white/[0.06] bg-white/[0.02] rounded-md transition-colors hover:border-white/[0.15] hover:text-foreground"
+                          className="px-2.5 py-1 text-[11px] font-mono text-muted-foreground border border-border bg-muted/30 rounded-md transition-colors hover:border-foreground/20 hover:text-foreground"
                         >
                           {t}
                         </li>

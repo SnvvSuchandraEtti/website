@@ -51,7 +51,7 @@ const ExperienceSection: React.FC = () => {
         <div className="relative">
           {/* Timeline rail */}
           <span
-            className="absolute left-0 top-2 bottom-2 w-px bg-white/[0.08]"
+            className="absolute left-0 top-2 bottom-2 w-px bg-border"
             aria-hidden="true"
           />
 
@@ -101,7 +101,7 @@ const ExperienceSection: React.FC = () => {
             to="/experience"
             className={cn(
               'inline-flex items-center gap-2 text-sm text-foreground',
-              'border-b border-white/[0.15] pb-1',
+              'border-b border-border pb-1',
               'transition-colors duration-200 hover:border-foreground',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded'
             )}

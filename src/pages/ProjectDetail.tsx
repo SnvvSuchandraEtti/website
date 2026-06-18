@@ -64,7 +64,7 @@ const ActionButton: React.FC<{
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
     variant === 'primary'
       ? 'bg-foreground text-background hover:bg-foreground/90 shadow-[0_1px_2px_rgba(255,255,255,0.1)]'
-      : 'bg-white/[0.03] border border-border/[0.08] text-foreground hover:bg-white/[0.06] hover:border-border/[0.12]'
+      : 'bg-muted/30 border border-border/[0.08] text-foreground hover:bg-muted/50 hover:border-border/[0.12]'
   );
 
   return (
@@ -186,7 +186,7 @@ const ProjectDetail: React.FC = () => {
             >
               <div className="flex items-center gap-3 mb-5">
                 <p className="eyebrow eyebrow-accent">{project.category || 'Project'}</p>
-                <span className="w-1 h-1 rounded-full bg-white/[0.15]" aria-hidden="true" />
+                <span className="w-1 h-1 rounded-full bg-muted-foreground/30" aria-hidden="true" />
                 <p className="eyebrow text-muted-foreground">Case study</p>
               </div>
               
@@ -203,7 +203,7 @@ const ProjectDetail: React.FC = () => {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="rounded-2xl overflow-hidden border border-border/[0.08] bg-card/50 ring-1 ring-white/[0.02] shadow-2xl aspect-[16/9] md:aspect-[21/9] mb-14"
+              className="rounded-2xl overflow-hidden border border-border/[0.08] bg-card/50 ring-1 ring-border/20 shadow-2xl aspect-[16/9] md:aspect-[21/9] mb-14"
             >
               {project.imageUrl ? (
                 <img
@@ -278,7 +278,7 @@ const ProjectDetail: React.FC = () => {
                       {project.technologies.map((t) => (
                         <li
                           key={t}
-                          className="px-2.5 py-1 text-[12px] font-mono text-muted-foreground/90 border border-border/[0.08] bg-white/[0.02] rounded-md transition-colors hover:border-border/[0.15] hover:text-foreground"
+                          className="px-2.5 py-1 text-[12px] font-mono text-muted-foreground/90 border border-border/[0.08] bg-muted/30 rounded-md transition-colors hover:border-border/[0.15] hover:text-foreground"
                         >
                           {t}
                         </li>
@@ -334,9 +334,9 @@ const ProjectDetail: React.FC = () => {
                         to={`/projects/${r.id}`}
                         className={cn(
                           'group flex flex-col sm:flex-row items-start sm:items-center gap-5 p-5 rounded-2xl',
-                          'bg-white/[0.04] border border-border/[0.04]',
+                          'bg-muted/40 border border-border/[0.04]',
                           'transition-all duration-300',
-                          'hover:bg-white/[0.04] hover:border-border/[0.1] hover:shadow-lg',
+                          'hover:bg-muted/40 hover:border-border/[0.1] hover:shadow-lg',
                           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50'
                         )}
                       >

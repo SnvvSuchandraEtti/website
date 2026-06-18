@@ -21,8 +21,8 @@ const IssuerChip: React.FC<{ name: string }> = ({ name }) => (
   <li
     className={cn(
       'px-3 py-1.5 text-xs font-mono text-muted-foreground',
-      'border border-white/[0.08] rounded-md bg-white/[0.02]',
-      'transition-colors duration-200 hover:border-white/[0.14] hover:text-foreground/80'
+      'border border-border rounded-md bg-muted/30',
+      'transition-colors duration-200 hover:border-foreground/20 hover:text-foreground/80'
     )}
   >
     {name}
@@ -93,7 +93,7 @@ const CertificatesSection: React.FC = () => {
               to="/certificates"
               className={cn(
                 'mt-8 inline-flex items-center gap-2 text-sm text-foreground',
-                'border-b border-white/[0.15] pb-1',
+                'border-b border-border pb-1',
                 'transition-colors duration-200 hover:border-foreground',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded'
               )}

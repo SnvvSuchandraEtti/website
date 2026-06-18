@@ -119,10 +119,10 @@ const HeroSection: React.FC = () => {
           }}
         />
         <div
-          className="absolute inset-0 opacity-[0.035]"
+          className="absolute inset-0 opacity-[0.035] dark:opacity-[0.035]"
           style={{
             backgroundImage:
-              'linear-gradient(to right, rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.5) 1px, transparent 1px)',
+              'linear-gradient(to right, hsl(var(--foreground) / 0.4) 1px, transparent 1px), linear-gradient(to bottom, hsl(var(--foreground) / 0.4) 1px, transparent 1px)',
             backgroundSize: '64px 64px',
             maskImage: 'radial-gradient(ellipse 70% 60% at 50% 50%, #000 40%, transparent 100%)',
           }}
@@ -239,7 +239,7 @@ const HeroSection: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
             className="order-1 lg:order-2 flex justify-center lg:justify-end"
           >
-            <div className="relative w-full max-w-[340px] sm:max-w-[400px] aspect-[4/5] rounded-2xl overflow-hidden border border-white/[0.08]">
+            <div className="relative w-full max-w-[340px] sm:max-w-[400px] aspect-[4/5] rounded-2xl overflow-hidden border border-border">
               <img
                 src={suchandraMain}
                 alt="Suchandra Etti"
@@ -260,7 +260,7 @@ const HeroSection: React.FC = () => {
                 <span
                   className={cn(
                     'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full',
-                    'bg-background/70 backdrop-blur border border-white/[0.1]',
+                    'bg-background/70 backdrop-blur border border-border',
                     'text-[11px] font-mono text-foreground/90'
                   )}
                 >

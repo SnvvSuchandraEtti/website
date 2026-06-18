@@ -48,7 +48,7 @@ const SkillChip: React.FC<{ id: string }> = ({ id }) => (
   <li
     className={cn(
       'flex items-center gap-2 px-3 py-1.5 rounded-full',
-      'border border-white/[0.08] bg-white/[0.02]',
+      'border border-border bg-muted/30',
       'text-xs text-muted-foreground'
     )}
   >
@@ -120,7 +120,7 @@ const SkillsSection: React.FC = () => {
             to="/skills"
             className={cn(
               'inline-flex items-center gap-2 text-sm text-foreground',
-              'border-b border-white/[0.15] pb-1',
+              'border-b border-border pb-1',
               'transition-colors duration-200 hover:border-foreground',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded'
             )}

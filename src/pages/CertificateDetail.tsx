@@ -75,7 +75,7 @@ const ActionButton: React.FC<{
     disabled && 'opacity-50 cursor-not-allowed',
     variant === 'primary'
       ? 'bg-foreground text-background hover:bg-foreground/90 shadow-[0_1px_2px_rgba(255,255,255,0.1)]'
-      : 'bg-white/[0.04] border border-white/[0.08] text-foreground hover:bg-white/[0.08] hover:border-white/[0.12]'
+      : 'bg-muted/40 border border-border text-foreground hover:bg-muted/60 hover:border-foreground/15'
   );
 
   const content = (
@@ -114,8 +114,8 @@ const SkillChip: React.FC<{ skill: string }> = ({ skill }) => (
   <li
     className={cn(
       'px-2.5 py-1 text-[11px] font-mono text-muted-foreground/90',
-      'border border-white/[0.08] bg-white/[0.02] rounded-md',
-      'transition-colors hover:border-white/[0.15] hover:text-foreground'
+      'border border-border bg-muted/30 rounded-md',
+      'transition-colors hover:border-foreground/20 hover:text-foreground'
     )}
   >
     {skill}
@@ -262,7 +262,7 @@ const CertificateDetail: React.FC = () => {
 
               {/* Data list */}
               <dl
-                className="grid grid-cols-2 lg:grid-cols-1 gap-x-6 gap-y-1 py-6 border-y border-white/[0.06]"
+                className="grid grid-cols-2 lg:grid-cols-1 gap-x-6 gap-y-1 py-6 border-y border-border"
                 aria-label="Metadata"
               >
                 <MetaRow icon={<Calendar className="h-3.5 w-3.5" />} label="Issued">
@@ -342,7 +342,7 @@ const CertificateDetail: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="lg:pt-2" // Optical alignment with title
             >
-              <div className="rounded-xl overflow-hidden border border-white/[0.08] bg-card/50 ring-1 ring-white/[0.02] shadow-2xl">
+              <div className="rounded-xl overflow-hidden border border-border bg-card/50 ring-1 ring-border/20 shadow-2xl">
                 <AdaptivePdfViewer
                   pdfUrl={certificate.pdfUrl}
                   title={certificate.title}
@@ -360,7 +360,7 @@ const CertificateDetail: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5 }}
-              className="mt-32 pt-16 border-t border-white/[0.06]"
+              className="mt-32 pt-16 border-t border-border"
             >
               <h2 id="related-heading" className="eyebrow mb-6">
                 More in {certificate.category}
@@ -372,9 +372,9 @@ const CertificateDetail: React.FC = () => {
                       to={`/certificates/${c.id}`}
                       className={cn(
                         'group flex flex-col justify-between h-full p-5 rounded-xl',
-                        'bg-white/[0.02] border border-white/[0.04]',
+                        'bg-muted/30 border border-border/40',
                         'transition-all duration-300',
-                        'hover:bg-white/[0.04] hover:border-white/[0.1] hover:shadow-lg',
+                        'hover:bg-muted/40 hover:border-border hover:shadow-lg',
                         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50'
                       )}
                     >

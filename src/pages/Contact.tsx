@@ -95,7 +95,7 @@ const ContactRow: React.FC<{
   href?: string;
   icon: React.ReactNode;
 }> = ({ label, value, href, icon }) => (
-  <div className="flex items-center justify-between gap-4 py-4 border-b border-white/[0.04] last:border-b-0 group/row">
+  <div className="flex items-center justify-between gap-4 py-4 border-b border-border/40 last:border-b-0 group/row">
     <div className="flex items-center gap-3 text-muted-foreground">
       {icon}
       <span className="eyebrow">{label}</span>
@@ -135,9 +135,9 @@ const SocialLink: React.FC<{
     aria-label={label}
     className={cn(
       'flex items-center justify-center h-10 w-10 rounded-full',
-      'border border-white/[0.08] bg-white/[0.02]',
+      'border border-border bg-muted/30',
       'text-muted-foreground transition-all duration-200',
-      'hover:bg-white/[0.06] hover:text-foreground hover:border-white/[0.12]',
+      'hover:bg-muted hover:text-foreground hover:border-foreground/20',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background'
     )}
   >
@@ -274,13 +274,13 @@ const Contact: React.FC = () => {
 
   const inputCls = (field: keyof FieldErrors) =>
     cn(
-      'w-full bg-white/[0.02] border',
-      errors[field] ? 'border-destructive/50 focus:border-destructive' : 'border-white/[0.08] focus:border-white/[0.2]',
+      'w-full bg-muted/30 border',
+      errors[field] ? 'border-destructive/50 focus:border-destructive' : 'border-border focus:border-foreground/30',
       'rounded-lg px-4 py-3.5 text-[15px] text-foreground',
       'placeholder:text-muted-foreground/40',
       'transition-all duration-200',
       'focus:outline-none focus:ring-1',
-      errors[field] ? 'focus:ring-destructive/50' : 'focus:ring-white/[0.2]',
+      errors[field] ? 'focus:ring-destructive/50' : 'focus:ring-primary/30',
       'disabled:opacity-50 disabled:cursor-not-allowed'
     );
 
@@ -475,7 +475,7 @@ const Contact: React.FC = () => {
                 aria-label="Contact details"
               >
                 {/* Portrait Card */}
-                <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] bg-card aspect-[4/5] max-w-sm">
+                <div className="relative rounded-2xl overflow-hidden border border-border bg-card aspect-[4/5] max-w-sm">
                   <img
                     src={contactPortrait}
                     alt="Suchandra Etti"
@@ -492,7 +492,7 @@ const Contact: React.FC = () => {
                     <p className="eyebrow text-foreground/60 mb-1" aria-hidden="true">Status</p>
                     <div className="flex items-center justify-between gap-4">
                       <p className="text-sm text-foreground font-medium">Open to opportunities</p>
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.06] backdrop-blur-sm border border-white/[0.08] text-[11px] font-mono text-foreground/90">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/60 backdrop-blur-sm border border-border text-[11px] font-mono text-foreground/90">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.4)] animate-pulse" aria-hidden="true" />
                         Available
                       </span>

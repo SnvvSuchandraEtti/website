@@ -57,7 +57,7 @@ const NotFound: React.FC = () => {
               
               <button 
                 onClick={() => navigate(-1)}
-                className="inline-flex items-center justify-center gap-2 h-11 w-full sm:w-auto px-6 rounded-full bg-white/[0.04] border border-white/[0.08] text-foreground text-sm font-medium hover:bg-white/[0.08] hover:border-white/[0.12] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                className="inline-flex items-center justify-center gap-2 h-11 w-full sm:w-auto px-6 rounded-full bg-muted/40 border border-border text-foreground text-sm font-medium hover:bg-muted/60 hover:border-foreground/15 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
               >
                 <ArrowLeft className="h-4 w-4" aria-hidden="true" /> 
                 Go Back

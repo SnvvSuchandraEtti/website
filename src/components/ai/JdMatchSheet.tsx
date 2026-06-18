@@ -108,7 +108,7 @@ const JdMatchSheet: React.FC<Props> = ({ open, onClose }) => {
             className="fixed z-[70] inset-x-4 top-8 bottom-8 md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:top-12 md:bottom-12 md:w-[min(720px,92vw)] surface flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06]">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-border">
               <div className="flex items-center gap-2.5 min-w-0">
                 <span className="h-8 w-8 rounded-md bg-primary/10 text-primary flex items-center justify-center">
                   <Sparkles className="h-4 w-4" />
@@ -143,7 +143,7 @@ const JdMatchSheet: React.FC<Props> = ({ open, onClose }) => {
                     placeholder="Paste the JD here — role, responsibilities, requirements…"
                     rows={10}
                     disabled={loading}
-                    className="w-full rounded-lg bg-card border border-white/[0.08] focus:border-primary/40 focus:ring-2 focus:ring-primary/20 outline-none px-4 py-3 text-sm leading-relaxed resize-y min-h-[180px] font-mono text-foreground placeholder:text-muted-foreground/50 transition-colors"
+                    className="w-full rounded-lg bg-card border border-border focus:border-primary/40 focus:ring-2 focus:ring-primary/20 outline-none px-4 py-3 text-sm leading-relaxed resize-y min-h-[180px] font-mono text-foreground placeholder:text-muted-foreground/50 transition-colors"
                   />
                   <div className="flex items-center justify-between gap-3">
                     <p className="text-[11px] text-muted-foreground">
@@ -268,7 +268,7 @@ const JdMatchSheet: React.FC<Props> = ({ open, onClose }) => {
                     </div>
                   )}
 
-                  <div className="flex items-center justify-between gap-3 pt-2 border-t border-white/[0.06]">
+                  <div className="flex items-center justify-between gap-3 pt-2 border-t border-border">
                     <button
                       onClick={reset}
                       className="text-xs text-muted-foreground hover:text-foreground transition-colors"

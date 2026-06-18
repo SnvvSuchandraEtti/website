@@ -107,9 +107,9 @@ const SocialIcon: React.FC<{
       aria-label={label}
       className={cn(
         'inline-flex items-center justify-center h-9 w-9 rounded-lg',
-        'border border-white/[0.06] bg-white/[0.02]',
+        'border border-border bg-muted',
         'text-muted-foreground transition-all duration-200',
-        'hover:text-foreground hover:border-white/[0.12] hover:bg-white/[0.04]',
+        'hover:text-foreground hover:border-border hover:bg-muted',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background'
       )}
     >
@@ -137,7 +137,7 @@ const Footer: React.FC = () => {
 
   return (
     <footer
-      className="relative border-t border-white/[0.06] mt-auto"
+      className="relative border-t border-border mt-auto"
       aria-labelledby="footer-heading"
     >
       <h2 id="footer-heading" className="sr-only">
@@ -209,7 +209,7 @@ const Footer: React.FC = () => {
                 </li>
               ))}
               <li className="pt-2">
-                <span className="inline-flex items-start gap-2 text-muted-foreground/70 text-xs leading-relaxed">
+                <span className="inline-flex items-start gap-2 text-muted-foreground text-xs leading-relaxed">
                   <MapPin
                     className="h-3.5 w-3.5 mt-0.5 shrink-0"
                     aria-hidden="true"
@@ -230,10 +230,10 @@ const Footer: React.FC = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <span
-                  className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"
+                  className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"
                   aria-hidden="true"
                 />
-                <span className="text-sm text-foreground/80">
+                <span className="text-sm text-foreground">
                   Open to opportunities
                 </span>
               </div>
@@ -246,9 +246,9 @@ const Footer: React.FC = () => {
                 to="/contact"
                 className={cn(
                   'inline-flex items-center gap-2 h-9 px-4 rounded-full text-xs font-medium',
-                  'border border-white/[0.1] text-muted-foreground',
+                  'border border-border text-muted-foreground',
                   'transition-all duration-200',
-                  'hover:text-foreground hover:border-white/[0.18] hover:bg-white/[0.03]',
+                  'hover:text-foreground hover:border-foreground/20 hover:bg-muted/50',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background'
                 )}
               >
@@ -261,31 +261,22 @@ const Footer: React.FC = () => {
       </div>
 
       {/* ── Bottom bar ──────────────────────────────────────────── */}
-      <div className="border-t border-white/[0.04]">
-        <div className="container mx-auto px-4 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <p className="text-xs text-muted-foreground/50">
-            © {year} Suchandra Etti. All rights reserved.
-          </p>
-
-          <div className="flex items-center gap-4">
-            <p className="text-xs text-muted-foreground/40">
-              Designed &amp; built with care.
-            </p>
-            <button
-              type="button"
-              onClick={scrollToTop}
-              aria-label="Scroll to top"
-              className={cn(
-                'inline-flex items-center justify-center h-7 w-7 rounded-md',
-                'border border-white/[0.06] text-muted-foreground/50',
-                'transition-all duration-200',
-                'hover:text-foreground hover:border-white/[0.14] hover:bg-white/[0.03]',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background'
-              )}
-            >
-              <ChevronUp className="h-3.5 w-3.5" aria-hidden="true" />
-            </button>
-          </div>
+      <div className="border-t border-border/40">
+        <div className="container mx-auto px-4 py-5 flex items-center justify-end">
+          <button
+            type="button"
+            onClick={scrollToTop}
+            aria-label="Scroll to top"
+            className={cn(
+              'inline-flex items-center justify-center h-7 w-7 rounded-md',
+              'border border-border text-muted-foreground/50',
+              'transition-all duration-200',
+              'hover:text-foreground hover:border-foreground/20 hover:bg-muted/50',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background'
+            )}
+          >
+            <ChevronUp className="h-3.5 w-3.5" aria-hidden="true" />
+          </button>
         </div>
       </div>
     </footer>

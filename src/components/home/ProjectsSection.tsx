@@ -32,7 +32,7 @@ const ProjectsSection: React.FC = () => {
             className={cn(
               'self-start md:self-end inline-flex items-center gap-2',
               'text-sm text-foreground whitespace-nowrap',
-              'border-b border-white/[0.15] pb-1',
+              'border-b border-border pb-1',
               'transition-colors duration-200 hover:border-foreground',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded'
             )}

@@ -26,7 +26,7 @@ const BackToTop: React.FC = () => {
           exit={{ opacity: 0, y: 20 }}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
-          className="fixed bottom-6 left-6 z-40 p-3 rounded-full bg-gradient-to-br from-primary to-accent text-primary-foreground shadow-lg shadow-primary/30 border border-white/10"
+          className="fixed bottom-6 left-6 z-40 p-3 rounded-full bg-gradient-to-br from-primary to-accent text-primary-foreground shadow-lg shadow-primary/30 border border-primary/30"
         >
           <ArrowUp className="h-5 w-5" />
         </motion.button>

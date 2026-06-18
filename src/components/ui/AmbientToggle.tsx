@@ -21,8 +21,11 @@ const AmbientToggle: React.FC<Props> = ({ className }) => {
           aria-pressed={enabled}
           aria-label={enabled ? "Disable ambient mode" : "Enable ambient mode"}
           className={cn(
-            "inline-flex items-center justify-center w-8 h-8 rounded-md border border-white/10 text-foreground/60 hover:text-foreground hover:bg-white/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-            enabled && "text-foreground border-white/20 bg-white/5",
+            "inline-flex items-center justify-center w-8 h-8 rounded-md",
+            "border border-border text-muted-foreground",
+            "hover:text-foreground hover:bg-muted transition-colors",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+            enabled && "text-foreground bg-muted",
             className,
           )}
         >

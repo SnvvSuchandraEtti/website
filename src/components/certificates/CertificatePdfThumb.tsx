@@ -109,7 +109,7 @@ const CertificatePdfThumb: React.FC<Props> = ({ pdfUrl, title, className }) => {
     <div
       ref={wrapperRef}
       className={cn(
-        'relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden bg-white/[0.03] border-b border-white/[0.06]',
+        'relative w-full aspect-[4/3] flex items-center justify-center overflow-hidden bg-muted/30 border-b border-border',
         className,
       )}
     >
@@ -124,7 +124,7 @@ const CertificatePdfThumb: React.FC<Props> = ({ pdfUrl, title, className }) => {
             aria-label={`${title} — first page preview`}
           />
           {!loaded && !errored && (
-            <div className="absolute inset-0 animate-pulse bg-white/[0.02]" />
+            <div className="absolute inset-0 animate-pulse bg-muted/30" />
           )}
           {errored && (
             <div className="absolute inset-0 flex items-center justify-center text-muted-foreground/60">

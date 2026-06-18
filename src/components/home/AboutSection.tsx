@@ -50,7 +50,7 @@ const AboutSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6 }}
-            className="relative rounded-2xl overflow-hidden border border-white/[0.08] bg-card aspect-[4/5]"
+            className="relative rounded-2xl overflow-hidden border border-border bg-card aspect-[4/5]"
           >
             <img
               src={aboutPortrait.url}
@@ -102,7 +102,7 @@ const AboutSection: React.FC = () => {
 
             {/* Stats — proper dl semantics, inline metadata */}
             <dl
-              className="mt-12 pt-8 border-t border-white/[0.08] grid grid-cols-2 sm:grid-cols-4 gap-6"
+              className="mt-12 pt-8 border-t border-border grid grid-cols-2 sm:grid-cols-4 gap-6"
               aria-label="Key stats"
             >
               {stats.map((s) => (
@@ -114,7 +114,7 @@ const AboutSection: React.FC = () => {
               to="/contact"
               className={cn(
                 'mt-10 inline-flex items-center gap-2 text-sm text-foreground',
-                'border-b border-white/[0.15] pb-1',
+                'border-b border-border pb-1',
                 'transition-colors duration-200 hover:border-foreground',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded'
               )}
