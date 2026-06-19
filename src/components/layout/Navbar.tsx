@@ -262,7 +262,7 @@ const NavLogo: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => (
       whileTap={{ scale: 0.95 }}
     >
       <img
-        src="/assets/images/profile/suchandra-main.png"
+        src="/assets/images/profile/suchandra-artistic.jpg"
         alt="Suchandra Etti"
         className="h-full w-full object-cover"
         loading="eager"

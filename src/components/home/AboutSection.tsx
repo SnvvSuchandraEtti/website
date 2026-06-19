@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import SectionHeading from '@/components/ui/SectionHeading';
-import aboutPortrait from '@/assets/profile/suchandra-about-portrait.jpg.asset.json';
+import aboutPortraitBW from '@/assets/profile/suchandra-about-portrait.jpg.asset.json';
+import aboutPortraitColor from '@/assets/profile/suchandra-about-portrait-color.png.asset.json';
+import InkReveal from '@/components/ui/ink-reveal';
 
 /* ─── Data ────────────────────────────────────────────────────────── */
 
@@ -52,18 +54,21 @@ const AboutSection: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="relative rounded-2xl overflow-hidden border border-border bg-card aspect-[4/5]"
           >
+            {/* Color image (bottom layer — revealed by ink carving) */}
             <img
-              src={aboutPortrait.url}
+              src={aboutPortraitColor.url}
               alt="Suchandra Etti portrait"
               loading="lazy"
               decoding="async"
               className="w-full h-full object-cover object-center"
             />
+            {/* B/W canvas (top layer — mouse carves holes to reveal color) */}
+            <InkReveal grayscaleSrc={aboutPortraitBW.url} brushSize={10} rStart={2} stampStep={4} />
             <div
-              className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent"
+              className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent z-10 pointer-events-none"
               aria-hidden="true"
             />
-            <div className="absolute bottom-5 left-5 right-5">
+            <div className="absolute bottom-5 left-5 right-5 z-10 pointer-events-none">
               <p className="eyebrow text-foreground/60 mb-1">Currently</p>
               <p className="text-sm font-medium text-foreground">
                 Building Leez — a P2P rental marketplace.
