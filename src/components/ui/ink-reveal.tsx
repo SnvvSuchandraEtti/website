@@ -61,46 +61,6 @@ export default function InkReveal({
   const bwImageRef = useRef<HTMLImageElement | null>(null);
   const bwLoadedRef = useRef(false);
 
-  /* ── Load the B/W image ─────────────────────────────────────────── */
-  useEffect(() => {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = () => {
-      bwImageRef.current = img;
-      bwLoadedRef.current = true;
-      // Trigger initial draw
-      resize();
-    };
-    img.src = grayscaleSrc;
-  }, [grayscaleSrc]);
-
-  /* ── Resize & initial paint ─────────────────────────────────────── */
-  const resize = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const parent = canvas.parentElement;
-    if (!parent) return;
-
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const rect = parent.getBoundingClientRect();
-    const w = rect.width;
-    const h = rect.height;
-    dimsRef.current = { w, h };
-    canvas.width = Math.round(w * dpr);
-    canvas.height = Math.round(h * dpr);
-    canvas.style.width = `${w}px`;
-    canvas.style.height = `${h}px`;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    // Draw the B/W image covering the entire canvas
-    if (bwLoadedRef.current && bwImageRef.current) {
-      drawBWCover(ctx, w, h);
-    }
-  }, []);
-
   /* ── Draw B/W image with object-fit: cover behaviour ────────────── */
   const drawBWCover = useCallback(
     (ctx: CanvasRenderingContext2D, cw: number, ch: number) => {
@@ -133,6 +93,46 @@ export default function InkReveal({
     },
     []
   );
+
+  /* ── Resize & initial paint ─────────────────────────────────────── */
+  const resize = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const parent = canvas.parentElement;
+    if (!parent) return;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const rect = parent.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+    dimsRef.current = { w, h };
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    canvas.style.width = `${w}px`;
+    canvas.style.height = `${h}px`;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    // Draw the B/W image covering the entire canvas
+    if (bwLoadedRef.current && bwImageRef.current) {
+      drawBWCover(ctx, w, h);
+    }
+  }, [drawBWCover]);
+
+  /* ── Load the B/W image ─────────────────────────────────────────── */
+  useEffect(() => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      bwImageRef.current = img;
+      bwLoadedRef.current = true;
+      // Trigger initial draw
+      resize();
+    };
+    img.src = grayscaleSrc;
+  }, [grayscaleSrc, resize]);
 
   /* ── Carve an ink stamp (erase a blob from the B/W layer) ──────── */
   const carveInk = useCallback(
@@ -167,7 +167,11 @@ export default function InkReveal({
           wobble[2] * Math.sin(a * 7 + seed * 0.7);
         const px = x + Math.cos(a) * r * wob;
         const py = y + Math.sin(a) * r * wob;
-        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+        if (i === 0) {
+          ctx.moveTo(px, py);
+        } else {
+          ctx.lineTo(px, py);
+        }
       }
       ctx.closePath();
       ctx.fill();

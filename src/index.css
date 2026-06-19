@@ -6,52 +6,52 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --background: 210 20% 99%;
+    --foreground: 220 30% 15%;
 
-    --card: 0 0% 99%;
-    --card-foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 30% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover-foreground: 220 30% 15%;
 
-    /* Vibrant primary for light mode — teal to match dark mode identity */
-    --primary: 180 55% 38%;
+    /* Vibrant primary for light mode — deep teal to match dark mode identity */
+    --primary: 180 80% 35%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 220 30% 15%;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 35%;
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 15% 45%;
 
-    /* Vibrant accent for light mode — purple to match dark mode identity */
-    --accent: 258 55% 55%;
+    /* Vibrant accent for light mode — rich purple */
+    --accent: 258 75% 55%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 180 55% 38%;
+    --border: 214 20% 90%;
+    --input: 214 20% 90%;
+    --ring: 180 80% 35%;
 
     --radius: 0.75rem;
 
-    /* Theme-aware overlay system — use black on light backgrounds */
-    --overlay-subtle: 0 0% 0% / 0.03;
-    --overlay-soft: 0 0% 0% / 0.05;
-    --overlay-medium: 0 0% 0% / 0.08;
-    --overlay-strong: 0 0% 0% / 0.12;
-    --overlay-hover: 0 0% 0% / 0.06;
-    --overlay-border: 0 0% 0% / 0.08;
-    --overlay-border-hover: 0 0% 0% / 0.15;
+    /* Theme-aware overlay system */
+    --overlay-subtle: 220 30% 15% / 0.02;
+    --overlay-soft: 220 30% 15% / 0.04;
+    --overlay-medium: 220 30% 15% / 0.08;
+    --overlay-strong: 220 30% 15% / 0.12;
+    --overlay-hover: 220 30% 15% / 0.06;
+    --overlay-border: 220 30% 15% / 0.08;
+    --overlay-border-hover: 220 30% 15% / 0.15;
 
-    --glass-bg: 0 0% 100% / 0.70;
-    --glass-border: 0 0% 0% / 0.08;
+    --glass-bg: 0 0% 100% / 0.80;
+    --glass-border: 220 30% 15% / 0.08;
 
-    --surface-1: 0 0% 98%;
-    --hairline: 0 0% 0% / 0.07;
+    --surface-1: 0 0% 100%;
+    --hairline: 220 30% 15% / 0.07;
   }
 
   .dark {
@@ -370,3 +370,66 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   50% { height: 16px; opacity: 1; }
 }
 .animate-waveform { animation: waveform-bar 0.9s ease-in-out infinite; height: 16px; }
+::view-transition-old(root), ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+/* Fluid Navbar Animations */
+:root {
+  --nav-layout-progress: 0;
+  --nav-bg-progress: 0;
+}
+
+.fluid-nav-container {
+  margin-top: calc(var(--nav-layout-progress) * 0.75rem);
+  width: 100%;
+  max-width: calc(100% - (var(--nav-layout-progress) * 24px));
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (min-width: 640px) {
+  .fluid-nav-container {
+    max-width: calc(100% - (var(--nav-layout-progress) * 48px));
+  }
+}
+@media (min-width: 1024px) {
+  .fluid-nav-container {
+    max-width: calc(100% - (var(--nav-layout-progress) * (100% - 1024px)));
+  }
+}
+@media (min-width: 1280px) {
+  .fluid-nav-container {
+    max-width: calc(100% - (var(--nav-layout-progress) * (100% - 1152px)));
+  }
+}
+
+.fluid-nav-inner {
+  border-radius: calc(var(--nav-layout-progress) * 1rem);
+  padding-top: calc(1rem - (var(--nav-layout-progress) * 0.5rem));
+  padding-bottom: calc(1rem - (var(--nav-layout-progress) * 0.5rem));
+  background-color: hsl(var(--background) / calc(0.8 - (var(--nav-bg-progress) * 0.1)));
+  backdrop-filter: blur(calc(var(--nav-bg-progress) * 24px)) saturate(calc(1 + (var(--nav-bg-progress) * 0.4)));
+  border: 1px solid hsla(var(--border) / calc(var(--nav-bg-progress) * 0.5));
+  box-shadow: 0 calc(var(--nav-bg-progress) * 8px) calc(var(--nav-bg-progress) * 32px) rgba(0,0,0,calc(var(--nav-bg-progress) * 0.06)),
+              0 calc(var(--nav-bg-progress) * 2px) calc(var(--nav-bg-progress) * 8px) rgba(0,0,0,calc(var(--nav-bg-progress) * 0.04));
+}
+.dark .fluid-nav-inner {
+  background-color: hsl(var(--background) / calc(0.8 - (var(--nav-bg-progress) * 0.3)));
+  border-color: hsla(var(--border) / var(--nav-bg-progress));
+  box-shadow: 0 calc(var(--nav-bg-progress) * 8px) calc(var(--nav-bg-progress) * 32px) rgba(0,0,0,calc(var(--nav-bg-progress) * 0.4)),
+              0 calc(var(--nav-bg-progress) * 2px) calc(var(--nav-bg-progress) * 8px) rgba(0,0,0,calc(var(--nav-bg-progress) * 0.2));
+}
+
+.fluid-nav-logo-img {
+  width: calc(2rem - (var(--nav-layout-progress) * 0.25rem));
+  height: calc(2rem - (var(--nav-layout-progress) * 0.25rem));
+}
+.fluid-nav-logo-text {
+  font-size: calc(1rem - (var(--nav-layout-progress) * 0.125rem));
+}
+@media (min-width: 1024px) {
+  .fluid-nav-logo-text {
+    font-size: calc(1.125rem - (var(--nav-layout-progress) * 0.125rem));
+  }
+}
+

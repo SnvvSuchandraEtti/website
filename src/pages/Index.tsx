@@ -7,7 +7,6 @@ import ExperienceSection from '@/components/home/ExperienceSection';
 import CertificatesSection from '@/components/home/CertificatesSection';
 import ChatbotButton from '@/components/ui/ChatbotButton';
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import SmoothTransition from '@/components/ui/SmoothTransition';
 import SEO from '@/components/seo/SEO';
 
@@ -54,8 +53,6 @@ const Index: React.FC = () => {
           <div className="section-divider"><ExperienceSection /></div>
           <div className="section-divider"><CertificatesSection /></div>
         </main>
-
-        <Footer />
 
         <ChatbotButton />
       </div>

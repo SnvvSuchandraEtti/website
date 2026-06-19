@@ -5,7 +5,6 @@ import { ExternalLink } from 'lucide-react';
 import { experiences } from '@/data/experience';
 import { cn } from '@/lib/utils';
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import SectionHeading from '@/components/ui/SectionHeading';
 import PageTransition from '@/components/ui/PageTransition';
 import SEO from '@/components/seo/SEO';
@@ -147,8 +146,6 @@ const Experience: React.FC = () => {
             </ol>
           </div>
         </main>
-
-        <Footer />
       </div>
     </PageTransition>
   );

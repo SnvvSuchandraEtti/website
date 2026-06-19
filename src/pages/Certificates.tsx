@@ -4,7 +4,6 @@ import { Search, X } from 'lucide-react';
 import { certificates, Certificate } from '@/data/certificates';
 import { cn } from '@/lib/utils';
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import SectionHeading from '@/components/ui/SectionHeading';
 import PageTransition from '@/components/ui/PageTransition';
 import CertificateListCard from '@/components/certificates/CertificateListCard';
@@ -201,8 +200,6 @@ const Certificates: React.FC = () => {
             )}
           </div>
         </main>
-
-        <Footer />
       </div>
     </PageTransition>
   );

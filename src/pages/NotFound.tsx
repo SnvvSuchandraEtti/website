@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Home } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import SEO from '@/components/seo/SEO';
 import PageTransition from '@/components/ui/PageTransition';
 
@@ -65,8 +64,6 @@ const NotFound: React.FC = () => {
             </div>
           </motion.div>
         </main>
-
-        <Footer />
       </div>
     </PageTransition>
   );

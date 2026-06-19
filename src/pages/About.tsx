@@ -16,7 +16,6 @@ import { cn } from '@/lib/utils';
 
 import PageTransition from '@/components/ui/PageTransition';
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import SectionHeading from '@/components/ui/SectionHeading';
 import SEO from '@/components/seo/SEO';
 
@@ -441,8 +440,6 @@ const About: React.FC = () => {
           </motion.div>
         </div>
       </main>
-
-      <Footer />
     </PageTransition>
   );
 };

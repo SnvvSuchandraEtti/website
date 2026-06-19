@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Award, ArrowUpRight, Sparkles } from 'lucide-react';
-import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useSpring, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
@@ -80,6 +80,12 @@ const DesktopNavLink: React.FC<{
         ref={ref}
         to={item.path}
         aria-current={active ? 'page' : undefined}
+        onClick={(e) => {
+          if (active) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }}
         className={cn(
           'relative px-3.5 py-2 rounded-full text-[13px] font-medium',
           'flex items-center gap-1.5',
@@ -153,8 +159,14 @@ const MobileNavLink: React.FC<{
     >
       <Link
         to={item.path}
-        onClick={onClose}
         aria-current={active ? 'page' : undefined}
+        onClick={(e) => {
+          if (active) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+          onClose();
+        }}
         className={cn(
           'group relative min-h-12 px-4 rounded-xl flex items-center gap-3',
           'text-[15px] transition-all duration-300',
@@ -242,11 +254,21 @@ const ScrollProgress: React.FC = () => {
 
 /* ─── Logo ────────────────────────────────────────────────────────── */
 
-const NavLogo: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => (
-  <Link
-    to="/"
-    className={cn(
-      'group flex items-center gap-2.5 min-w-0 rounded-lg',
+const NavLogo: React.FC = () => {
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+
+  return (
+    <Link
+      to="/"
+      onClick={(e) => {
+        if (isHome) {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }}
+      className={cn(
+        'group flex items-center gap-2.5 min-w-0 rounded-lg',
       'outline-none focus-visible:ring-2 focus-visible:ring-ring',
       'focus-visible:ring-offset-2 focus-visible:ring-offset-background'
     )}
@@ -254,11 +276,7 @@ const NavLogo: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => (
   >
     {/* Profile photo mark */}
     <motion.div
-      className={cn(
-        'relative flex items-center justify-center rounded-lg overflow-hidden',
-        'transition-all duration-300',
-        isScrolled ? 'h-7 w-7' : 'h-8 w-8'
-      )}
+      className="relative flex items-center justify-center rounded-lg overflow-hidden fluid-nav-logo-img transition-transform duration-300"
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.95 }}
     >
@@ -274,11 +292,7 @@ const NavLogo: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => (
     </motion.div>
     {/* Wordmark */}
     <motion.span
-      className={cn(
-        'font-semibold tracking-tight text-foreground truncate',
-        'transition-all duration-300',
-        isScrolled ? 'text-sm lg:text-base' : 'text-base lg:text-lg'
-      )}
+      className="font-semibold tracking-tight text-foreground truncate fluid-nav-logo-text"
       initial={{ opacity: 0, x: -8 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.1, duration: 0.4 }}
@@ -287,26 +301,76 @@ const NavLogo: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => (
       <span className="text-muted-foreground font-normal ml-1.5">Etti</span>
     </motion.span>
   </Link>
-);
+  );
+};
 
 /* ─── Navbar ──────────────────────────────────────────────────────── */
 
 const Navbar: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
-  /* ── Scroll detection ─────────────────────────────────────────── */
+  const [isVisible, setIsVisible] = useState(true);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastScrollY = useRef(0);
 
-  const handleScroll = useCallback(() => {
-    setIsScrolled(window.scrollY > 20);
+  const { scrollY } = useScroll();
+  const rawProgress = useTransform(scrollY, [0, 50], [0, 1]);
+  const progress = useSpring(rawProgress, { stiffness: 400, damping: 40 });
+
+  const isHomePage = location.pathname === '/';
+
+  /* ── Auto-hide Scroll Logic ─────────────────────────────────────── */
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, []);
 
   useEffect(() => {
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
+    if (!isHomePage) {
+      setIsVisible(true);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      return;
+    }
+
+    if (mobileMenuOpen) {
+      setIsVisible(true);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    } else if (scrollY.get() > 50) {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => setIsVisible(false), 2000);
+    }
+  }, [mobileMenuOpen, scrollY, isHomePage]);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (!isHomePage) {
+      setIsVisible(true);
+      return;
+    }
+
+    if (mobileMenuOpen) return;
+
+    const previous = lastScrollY.current;
+    const diff = latest - previous;
+    lastScrollY.current = latest;
+
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+    if (latest < 50) {
+      setIsVisible(true);
+      return;
+    }
+
+    if (diff < -5) {
+      setIsVisible(true);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      setIsVisible(false);
+    }, 2000);
+  });
 
   /* ── Close mobile menu on route change ────────────────────────── */
 
@@ -326,45 +390,27 @@ const Navbar: React.FC = () => {
     <motion.header
       role="banner"
       initial={{ y: -100 }}
-      animate={{ y: 0 }}
+      animate={{ y: isVisible ? 0 : -100 }}
       transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-      className={cn(
-        'fixed top-0 inset-x-0 z-50',
-        'transition-all duration-500 ease-out'
-      )}
+      style={isHomePage ? { 
+        '--nav-layout-progress': progress,
+        '--nav-bg-progress': progress 
+      } as any : {
+        '--nav-layout-progress': 0
+      } as any}
+      className="fixed top-0 inset-x-0 z-50 pointer-events-none"
     >
       {/* Floating container */}
-      <div
-        className={cn(
-          'transition-all duration-500 ease-out',
-          isScrolled
-            ? 'mx-3 sm:mx-6 lg:mx-auto lg:max-w-5xl xl:max-w-6xl mt-3 rounded-2xl'
-            : 'mx-0 mt-0 rounded-none'
-        )}
-      >
-        <div
-          className={cn(
-            'relative overflow-hidden transition-all duration-500 ease-out',
-            isScrolled
-              ? [
-                  'bg-background/70 dark:bg-background/50',
-                  'backdrop-blur-2xl backdrop-saturate-[1.4]',
-                  'border border-border/50 dark:border-border',
-                  'shadow-[0_8px_32px_rgba(0,0,0,0.06),0_2px_8px_rgba(0,0,0,0.04)]',
-                  'dark:shadow-[0_8px_32px_rgba(0,0,0,0.4),0_2px_8px_rgba(0,0,0,0.2)]',
-                  'rounded-2xl',
-                  'py-2',
-                ].join(' ')
-              : [
-                  'bg-gradient-to-b from-background/80 to-transparent',
-                  'border-b border-transparent',
-                  'py-4',
-                ].join(' ')
-          )}
-        >
+      <div className={cn("pointer-events-auto", isHomePage ? "fluid-nav-container" : "w-full")}>
+        <div className={cn(
+          "relative", 
+          isHomePage 
+            ? "fluid-nav-inner overflow-hidden" 
+            : "bg-background/95 backdrop-blur-md border-b border-border/50 py-2.5"
+        )}>
           <div className="container mx-auto flex items-center justify-between gap-4 px-4 lg:px-6">
             {/* ── Logo / wordmark ─────────────────────────────────────── */}
-            <NavLogo isScrolled={isScrolled} />
+            <NavLogo />
 
             {/* ── Desktop navigation (lg+) ────────────────────────────── */}
             <nav aria-label="Primary" className="hidden lg:flex items-center gap-0.5">
@@ -508,9 +554,6 @@ const Navbar: React.FC = () => {
               </Sheet>
             </div>
           </div>
-
-          {/* Scroll progress indicator */}
-          {isScrolled && <ScrollProgress />}
         </div>
       </div>
     </motion.header>

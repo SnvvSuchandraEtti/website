@@ -3,6 +3,7 @@ import { Volume2, VolumeX } from "lucide-react";
 import { useAmbientAudio } from "@/context/AmbientAudioProvider";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { motion } from "framer-motion";
 
 interface Props {
   className?: string;
@@ -15,7 +16,9 @@ const AmbientToggle: React.FC<Props> = ({ className }) => {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <button
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           type="button"
           onClick={toggle}
           aria-pressed={enabled}
@@ -30,7 +33,7 @@ const AmbientToggle: React.FC<Props> = ({ className }) => {
           )}
         >
           {enabled ? <Volume2 className="h-3.5 w-3.5" /> : <VolumeX className="h-3.5 w-3.5" />}
-        </button>
+        </motion.button>
       </TooltipTrigger>
       <TooltipContent side="bottom" className="text-xs">
         Ambient mode {enabled ? "on" : "off"}

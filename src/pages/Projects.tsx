@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { projects, Project } from '@/data/projects';
 import { cn } from '@/lib/utils';
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import ProjectCard from '@/components/ui/ProjectCard';
 import SectionHeading from '@/components/ui/SectionHeading';
 import PageTransition from '@/components/ui/PageTransition';
@@ -153,8 +152,6 @@ const Projects: React.FC = () => {
             )}
           </div>
         </main>
-
-        <Footer />
       </div>
     </PageTransition>
   );

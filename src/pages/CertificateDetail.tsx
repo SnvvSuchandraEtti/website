@@ -16,7 +16,6 @@ import {
 import { cn } from '@/lib/utils';
 import { certificates, Certificate } from '@/data/certificates';
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import PageTransition from '@/components/ui/PageTransition';
 import AdaptivePdfViewer from '@/components/certificates/AdaptivePdfViewer';
 import { CertificateViewer } from '@/components/certificates/CertificateFullViewer';
@@ -189,7 +188,6 @@ const CertificateDetail: React.FC = () => {
             </Link>
           </div>
         </main>
-        <Footer />
       </PageTransition>
     );
   }
@@ -403,8 +401,6 @@ const CertificateDetail: React.FC = () => {
           )}
         </div>
       </main>
-
-      <Footer />
 
       {/* Fullscreen Overlay */}
       <AnimatePresence>

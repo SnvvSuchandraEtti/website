@@ -9,6 +9,8 @@ import {
   Github,
   Linkedin,
   Twitter,
+  Instagram,
+  Link as LinkIcon,
   CheckCircle2,
   Loader2,
   ArrowUpRight,
@@ -17,7 +19,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import SEO from '@/components/seo/SEO';
 import PageTransition from '@/components/ui/PageTransition';
 import { supabase } from '@/integrations/supabase/client';
@@ -556,6 +557,16 @@ const Contact: React.FC = () => {
                         icon={<Twitter className="h-4 w-4" aria-hidden="true" />}
                         label="Twitter Profile"
                       />
+                      <SocialLink
+                        href="https://instagram.com/suchandra369"
+                        icon={<Instagram className="h-4 w-4" aria-hidden="true" />}
+                        label="Instagram Profile"
+                      />
+                      <SocialLink
+                        href="https://linktr.ee/snvvs369"
+                        icon={<LinkIcon className="h-4 w-4" aria-hidden="true" />}
+                        label="Linktree"
+                      />
                     </div>
                   </div>
                 </div>
@@ -563,8 +574,6 @@ const Contact: React.FC = () => {
             </motion.div>
           </div>
         </main>
-
-        <Footer />
       </div>
     </PageTransition>
   );

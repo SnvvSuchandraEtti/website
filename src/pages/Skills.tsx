@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 import { skills, Skill } from '@/data/skills';
 import { cn } from '@/lib/utils';
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import SectionHeading from '@/components/ui/SectionHeading';
 import PageTransition from '@/components/ui/PageTransition';
 import SEO from '@/components/seo/SEO';
@@ -162,8 +161,6 @@ const Skills: React.FC = () => {
             </div>
           </div>
         </main>
-
-        <Footer />
       </div>
     </PageTransition>
   );

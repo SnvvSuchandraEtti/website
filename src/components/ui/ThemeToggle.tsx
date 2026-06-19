@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Sun, Moon } from 'lucide-react';
+import { AnimatedThemeToggler } from '@/components/ui/animated-theme-toggler';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 /**
  * ThemeToggle – toggles dark / light mode.
@@ -31,25 +32,26 @@ const ThemeToggle: React.FC<{ className?: string }> = ({ className }) => {
     }
   }, [isDark]);
 
-  const toggle = () => setIsDark((prev) => !prev);
+  const handleThemeChange = (theme: "light" | "dark") => {
+    setIsDark(theme === "dark");
+  };
 
   return (
-    <button
-      type="button"
-      aria-pressed={isDark}
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      onClick={toggle}
-      className={cn(
-        'inline-flex items-center justify-center w-8 h-8 rounded-md',
-        'border border-border text-muted-foreground',
-        'hover:text-foreground hover:bg-muted transition-colors',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-        isDark && 'text-foreground bg-muted',
-        className
-      )}
-    >
-      {isDark ? <Moon className="h-3.5 w-3.5" /> : <Sun className="h-3.5 w-3.5" />}
-    </button>
+    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex">
+      <AnimatedThemeToggler
+        variant="circle"
+        theme={isDark ? "dark" : "light"}
+        onThemeChange={handleThemeChange}
+        className={cn(
+          'inline-flex items-center justify-center w-8 h-8 rounded-md',
+          'border border-border text-muted-foreground',
+          'hover:text-foreground hover:bg-muted transition-colors',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+          isDark && 'text-foreground bg-muted',
+          className
+        )}
+      />
+    </motion.div>
   );
 };
 

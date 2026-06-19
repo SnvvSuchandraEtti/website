@@ -9,7 +9,6 @@ import GradientCover from '@/components/ui/GradientCover';
 import { ImageWithSkeleton } from '@/components/ui/ImageWithSkeleton';
 import PageTransition from '@/components/ui/PageTransition';
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import SEO from '@/components/seo/SEO';
 
 /* ─── Sub-components ──────────────────────────────────────────────── */
@@ -131,7 +130,6 @@ const ProjectDetail: React.FC = () => {
               </Link>
             </div>
           </main>
-          <Footer />
         </div>
       </PageTransition>
     );
@@ -369,8 +367,6 @@ const ProjectDetail: React.FC = () => {
 
           </div>
         </main>
-
-        <Footer />
       </div>
     </PageTransition>
   );
