@@ -22,6 +22,7 @@ import SEO from '@/components/seo/SEO';
 import PageTransition from '@/components/ui/PageTransition';
 import { supabase } from '@/integrations/supabase/client';
 import { ImageWithSkeleton } from '@/components/ui/ImageWithSkeleton';
+import { SplineSceneBasic } from '@/components/ui/SplineDemo';
 import contactPortraitAsset from '@/assets/profile/suchandra-contact-portrait.jpg.asset.json';
 
 const contactPortrait = contactPortraitAsset.url;
@@ -545,6 +546,17 @@ const Contact: React.FC = () => {
                 </div>
               </motion.aside>
             </div>
+            
+            {/* ── Spline 3D Scene ───────────────────────────────────── */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.6 }}
+              className="mt-24 mb-8"
+            >
+              <SplineSceneBasic />
+            </motion.div>
           </div>
         </main>
 
