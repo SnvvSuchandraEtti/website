@@ -502,48 +502,7 @@ const Contact: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Direct Contact Details */}
-                <div className="max-w-sm">
-                  <ContactRow
-                    label="Email"
-                    value={RECIPIENT_EMAIL}
-                    href={`mailto:${RECIPIENT_EMAIL}`}
-                    icon={<Mail className="h-4 w-4" aria-hidden="true" />}
-                  />
-                  <ContactRow
-                    label="Phone"
-                    value="+91 7989635988"
-                    href="tel:+917989635988"
-                    icon={<Phone className="h-4 w-4" aria-hidden="true" />}
-                  />
-                  <ContactRow
-                    label="Location"
-                    value="Andhra Pradesh, IN"
-                    icon={<MapPin className="h-4 w-4" aria-hidden="true" />}
-                  />
-                </div>
 
-                {/* Social Links Grid */}
-                <div className="pt-2 max-w-sm">
-                  <p className="eyebrow mb-4" aria-hidden="true">Socials</p>
-                  <div className="flex items-center gap-3">
-                    <SocialLink
-                      href="https://github.com/SnvvSuchandraEtti"
-                      icon={<Github className="h-4 w-4" aria-hidden="true" />}
-                      label="GitHub Profile"
-                    />
-                    <SocialLink
-                      href="https://linkedin.com/in/suchandra-etti"
-                      icon={<Linkedin className="h-4 w-4" aria-hidden="true" />}
-                      label="LinkedIn Profile"
-                    />
-                    <SocialLink
-                      href="https://twitter.com/snvvs369"
-                      icon={<Twitter className="h-4 w-4" aria-hidden="true" />}
-                      label="Twitter Profile"
-                    />
-                  </div>
-                </div>
               </motion.aside>
             </div>
             
@@ -555,7 +514,52 @@ const Contact: React.FC = () => {
               transition={{ duration: 0.6 }}
               className="mt-24 mb-8"
             >
-              <SplineSceneBasic />
+              <SplineSceneBasic>
+                <div className="dark text-foreground space-y-8 max-w-sm">
+                  {/* Direct Contact Details */}
+                  <div>
+                    <ContactRow
+                      label="Email"
+                      value={RECIPIENT_EMAIL}
+                      href={`mailto:${RECIPIENT_EMAIL}`}
+                      icon={<Mail className="h-4 w-4" aria-hidden="true" />}
+                    />
+                    <ContactRow
+                      label="Phone"
+                      value="+91 7989635988"
+                      href="tel:+917989635988"
+                      icon={<Phone className="h-4 w-4" aria-hidden="true" />}
+                    />
+                    <ContactRow
+                      label="Location"
+                      value="Andhra Pradesh, IN"
+                      icon={<MapPin className="h-4 w-4" aria-hidden="true" />}
+                    />
+                  </div>
+
+                  {/* Social Links Grid */}
+                  <div className="pt-2">
+                    <p className="eyebrow mb-4 text-muted-foreground" aria-hidden="true">Socials</p>
+                    <div className="flex items-center gap-3">
+                      <SocialLink
+                        href="https://github.com/SnvvSuchandraEtti"
+                        icon={<Github className="h-4 w-4" aria-hidden="true" />}
+                        label="GitHub Profile"
+                      />
+                      <SocialLink
+                        href="https://linkedin.com/in/suchandra-etti"
+                        icon={<Linkedin className="h-4 w-4" aria-hidden="true" />}
+                        label="LinkedIn Profile"
+                      />
+                      <SocialLink
+                        href="https://twitter.com/snvvs369"
+                        icon={<Twitter className="h-4 w-4" aria-hidden="true" />}
+                        label="Twitter Profile"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </SplineSceneBasic>
             </motion.div>
           </div>
         </main>
