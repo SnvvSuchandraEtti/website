@@ -14,7 +14,7 @@ export function SplineSceneBasic({ children }: { children?: React.ReactNode }) {
       
       <div className="flex flex-col lg:flex-row h-full flex-1">
         {/* Left content */}
-        <div className="flex-1 p-6 sm:p-8 relative z-10 flex flex-col justify-center order-2 lg:order-1 pb-10 lg:pb-8">
+        <div className="flex-1 p-6 sm:p-8 relative z-10 flex flex-col justify-center lg:justify-end order-2 lg:order-1 pb-10 lg:pb-16">
           {children}
         </div>
 
