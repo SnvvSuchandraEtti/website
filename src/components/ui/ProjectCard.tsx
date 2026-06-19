@@ -5,6 +5,7 @@ import { ArrowUpRight, Github, ExternalLink } from 'lucide-react';
 import { Project } from '@/data/projects';
 import { cn } from '@/lib/utils';
 import GradientCover from './GradientCover';
+import { ImageWithSkeleton } from './ImageWithSkeleton';
 
 interface ProjectCardProps {
   project: Project;
@@ -34,13 +35,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index = 0 }) => {
         {/* Screenshot — large, no overlay text */}
         <div className="relative aspect-[16/10] overflow-hidden bg-muted/40">
           {project.imageUrl ? (
-            <img
-              src={project.imageUrl}
-              alt={project.title}
-              loading="lazy"
-              decoding="async"
-              className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-            />
+              <ImageWithSkeleton
+                src={project.imageUrl}
+                alt={project.title}
+                loading="lazy"
+                decoding="async"
+                className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+              />
           ) : (
             <GradientCover title={project.title} color={project.color} />
           )}

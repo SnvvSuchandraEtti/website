@@ -9,6 +9,7 @@ import SectionHeading from '@/components/ui/SectionHeading';
 import PageTransition from '@/components/ui/PageTransition';
 import SEO from '@/components/seo/SEO';
 import { getSkillIconUrl, FALLBACK_SKILL_ICON } from '@/lib/skillIcons';
+import { ImageWithSkeleton } from '@/components/ui/ImageWithSkeleton';
 
 // Most-used first
 const CATEGORY_ORDER: Skill['category'][] = [
@@ -116,14 +117,14 @@ const Skills: React.FC = () => {
                         className="flex items-center gap-4 group scroll-mt-32"
                       >
                         <div className="w-10 h-10 rounded-lg border border-border/[0.08] bg-muted/30 p-2 shrink-0 flex items-center justify-center transition-colors group-hover:border-border/[0.15] group-hover:bg-muted/40">
-                          <img
+                          <ImageWithSkeleton
                             src={getSkillIconUrl(s.id)}
                             alt=""
                             width={24}
                             height={24}
                             loading="lazy"
                             decoding="async"
-                            className="w-full h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300 opacity-80 group-hover:opacity-100"
+                            className="object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300 opacity-80 group-hover:opacity-100"
                             onError={(e) => {
                               const img = e.currentTarget;
                               if (img.src !== FALLBACK_SKILL_ICON) img.src = FALLBACK_SKILL_ICON;

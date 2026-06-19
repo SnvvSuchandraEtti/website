@@ -21,6 +21,7 @@ import Footer from '@/components/layout/Footer';
 import SEO from '@/components/seo/SEO';
 import PageTransition from '@/components/ui/PageTransition';
 import { supabase } from '@/integrations/supabase/client';
+import { ImageWithSkeleton } from '@/components/ui/ImageWithSkeleton';
 import contactPortraitAsset from '@/assets/profile/suchandra-contact-portrait.jpg.asset.json';
 
 const contactPortrait = contactPortraitAsset.url;
@@ -476,12 +477,12 @@ const Contact: React.FC = () => {
               >
                 {/* Portrait Card */}
                 <div className="relative rounded-2xl overflow-hidden border border-border bg-card aspect-[4/5] max-w-sm">
-                  <img
+                  <ImageWithSkeleton
                     src={contactPortrait}
                     alt="Suchandra Etti"
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-cover object-[center_top]"
+                    className="object-cover object-[center_top]"
                   />
                   {/* Quiet gradient for text legibility */}
                   <div

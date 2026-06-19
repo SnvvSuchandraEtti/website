@@ -7,6 +7,7 @@ import SectionHeading from '@/components/ui/SectionHeading';
 import aboutPortraitBW from '@/assets/profile/suchandra-about-portrait.jpg.asset.json';
 import aboutPortraitColor from '@/assets/profile/suchandra-about-portrait-color.png.asset.json';
 import InkReveal from '@/components/ui/ink-reveal';
+import { ImageWithSkeleton } from '@/components/ui/ImageWithSkeleton';
 
 /* ─── Data ────────────────────────────────────────────────────────── */
 
@@ -55,12 +56,12 @@ const AboutSection: React.FC = () => {
             className="relative rounded-2xl overflow-hidden border border-border bg-card aspect-[4/5]"
           >
             {/* Color image (bottom layer — revealed by ink carving) */}
-            <img
+            <ImageWithSkeleton
               src={aboutPortraitColor.url}
               alt="Suchandra Etti portrait"
               loading="lazy"
               decoding="async"
-              className="w-full h-full object-cover object-center"
+              className="object-cover object-center"
             />
             {/* B/W canvas (top layer — mouse carves holes to reveal color) */}
             <InkReveal grayscaleSrc={aboutPortraitBW.url} brushSize={10} rStart={2} stampStep={4} />

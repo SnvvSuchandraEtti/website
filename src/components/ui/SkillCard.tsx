@@ -5,6 +5,7 @@ import { Skill } from '@/data/skills';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { getSkillIconUrl, FALLBACK_SKILL_ICON } from '@/lib/skillIcons';
+import { ImageWithSkeleton } from '@/components/ui/ImageWithSkeleton';
 
 interface SkillCardProps {
   skill: Skill;
@@ -60,7 +61,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, className, index = 0 }) =>
             className="w-16 h-16 mb-3 p-3 rounded-xl overflow-hidden flex items-center justify-center"
             style={{ backgroundColor: isHovered ? (skill.color || 'hsl(var(--primary))') + '20' : 'transparent' }}
           >
-            <img 
+            <ImageWithSkeleton 
               src={getSkillIconUrl(skill.id)} 
               loading="lazy"
               decoding="async"
@@ -68,7 +69,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, className, index = 0 }) =>
               height={64}
               onError={(e) => { (e.target as HTMLImageElement).src = FALLBACK_SKILL_ICON; }}
               alt={skill.name} 
-              className="w-full h-full object-contain"
+              className="object-contain"
             />
           </motion.div>
           <h3 className="font-semibold text-lg">{skill.name}</h3>

@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/s
 import { Button } from '@/components/ui/button';
 import AmbientToggle from '@/components/ui/AmbientToggle';
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import { ImageWithSkeleton } from '@/components/ui/ImageWithSkeleton';
 
 /* ─── Data ────────────────────────────────────────────────────────── */
 
@@ -261,10 +262,10 @@ const NavLogo: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => (
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.95 }}
     >
-      <img
+      <ImageWithSkeleton
         src="/assets/images/profile/suchandra-artistic.jpg"
         alt="Suchandra Etti"
-        className="h-full w-full object-cover"
+        className="object-cover"
         loading="eager"
         decoding="async"
       />

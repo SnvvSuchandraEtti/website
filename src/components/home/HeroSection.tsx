@@ -5,6 +5,7 @@ import { ArrowRight, Github, Linkedin, ArrowDown } from 'lucide-react';
 import ResumeButton from '../ui/ResumeButton';
 import { useMagnetic } from '@/hooks/useMagnetic';
 import { cn } from '@/lib/utils';
+import { ImageWithSkeleton } from '@/components/ui/ImageWithSkeleton';
 import suchandraMainAsset from '@/assets/profile/suchandra-main.png.asset.json';
 const suchandraMain = suchandraMainAsset.url;
 
@@ -240,7 +241,7 @@ const HeroSection: React.FC = () => {
             className="order-1 lg:order-2 flex justify-center lg:justify-end"
           >
             <div className="relative w-full max-w-[340px] sm:max-w-[400px] aspect-[4/5] rounded-2xl overflow-hidden border border-border">
-              <img
+              <ImageWithSkeleton
                 src={suchandraMain}
                 alt="Suchandra Etti"
                 width={520}
@@ -248,7 +249,7 @@ const HeroSection: React.FC = () => {
                 loading="eager"
                 {...({ fetchpriority: 'high' } as React.ImgHTMLAttributes<HTMLImageElement>)}
                 decoding="async"
-                className="w-full h-full object-cover object-top"
+                className="object-cover object-top"
               />
               {/* Quiet gradient for text legibility */}
               <div

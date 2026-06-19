@@ -6,6 +6,7 @@ import { ArrowLeft, Github, ExternalLink, ArrowUpRight, AlertCircle, LayoutTempl
 import { Project, projects } from '@/data/projects';
 import { cn } from '@/lib/utils';
 import GradientCover from '@/components/ui/GradientCover';
+import { ImageWithSkeleton } from '@/components/ui/ImageWithSkeleton';
 import PageTransition from '@/components/ui/PageTransition';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -206,14 +207,14 @@ const ProjectDetail: React.FC = () => {
               className="rounded-2xl overflow-hidden border border-border/[0.08] bg-card/50 ring-1 ring-border/20 shadow-2xl aspect-[16/9] md:aspect-[21/9] mb-14"
             >
               {project.imageUrl ? (
-                <img
+                <ImageWithSkeleton
                   src={project.imageUrl}
                   alt={`${project.title} interface preview`}
                   width={1600}
                   height={900}
                   loading="eager"
                   decoding="async"
-                  className="w-full h-full object-cover object-top"
+                  className="object-cover object-top"
                 />
               ) : (
                 <GradientCover title={project.title} tags={project.technologies} color={project.color} />
@@ -342,7 +343,7 @@ const ProjectDetail: React.FC = () => {
                       >
                         <div className="w-full sm:w-24 h-48 sm:h-24 shrink-0 rounded-xl overflow-hidden border border-border/[0.06]">
                           {r.imageUrl ? (
-                            <img src={r.imageUrl} alt="" loading="lazy" className="w-full h-full object-cover" />
+                            <ImageWithSkeleton src={r.imageUrl} alt="" loading="lazy" className="object-cover" />
                           ) : (
                             <GradientCover title={r.title} color={r.color} compact />
                           )}
